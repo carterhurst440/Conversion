@@ -105,7 +105,11 @@ input:focus {
 }
 
 button.primary,
-button.secondary {
+button.secondary,
+a.button {
+  display: block;
+  text-align: center;
+  text-decoration: none;
   padding: 12px;
   border-radius: 8px;
   font: inherit;
@@ -113,7 +117,7 @@ button.secondary {
   cursor: pointer;
 }
 
-button.primary {
+.primary {
   border: 0;
   background: var(--accent);
   color: var(--accent-text);

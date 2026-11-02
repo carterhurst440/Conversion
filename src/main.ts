@@ -91,7 +91,7 @@ async function renderHome(session: Session) {
         <p class="muted">Signed in as</p>
         <h2>${escapeHtml(name)}</h2>
         ${profile ? `<p class="muted">@${escapeHtml(profile.username)}</p>` : ''}
-        <button class="primary" disabled>Play — coming soon</button>
+        <a class="primary button" href="/game/index.html">Play</a>
         <button class="secondary" id="sign-out">Sign out</button>
       </section>
     </main>
