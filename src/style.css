@@ -1,0 +1,147 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #141b24;
+  --border: #243040;
+  --text: #e6edf3;
+  --muted: #8b9bb0;
+  --accent: #3fb6ff;
+  --accent-text: #04121c;
+  --danger: #ff6b6b;
+  --success: #4ade80;
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+}
+
+.logo {
+  margin: 0;
+  font-size: clamp(28px, 8vw, 44px);
+  letter-spacing: 0.3em;
+  font-weight: 800;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.card h2 {
+  margin: 0;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg);
+  border-radius: 10px;
+}
+
+.tab {
+  padding: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--panel);
+  color: var(--text);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px; /* 16px stops iOS from zooming on focus */
+}
+
+input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+button.primary,
+button.secondary {
+  padding: 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.primary {
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+button.secondary {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.message {
+  margin: 0;
+  min-height: 1.2em;
+  font-size: 14px;
+  color: var(--danger);
+}
+
+.message.success {
+  color: var(--success);
+}
+
+.muted {
+  margin: 0;
+  color: var(--muted);
+}
