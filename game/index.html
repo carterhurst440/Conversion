@@ -4461,7 +4461,7 @@ let NAMEG=null,FORIG=null;
 function applyNames(g){if(!FORIG){FORIG={B:{},U:{},T:{}};for(const k in B)FORIG.B[k]={name:B[k].name,desc:B[k].desc};for(const k in U)FORIG.U[k]={name:U[k].name,desc:U[k].desc};for(const k in TECH)FORIG.T[k]={name:TECH[k].name,desc:TECH[k].desc}}
   NAMEG=g;for(const k in FORIG.B){B[k].name=FXg(g,FORIG.B[k].name);B[k].desc=FXg(g,FORIG.B[k].desc)}for(const k in FORIG.U){if(!U[k])continue;U[k].name=FXg(g,FORIG.U[k].name);U[k].desc=FXg(g,FORIG.U[k].desc)}for(const k in FORIG.T){TECH[k].name=FXg(g,FORIG.T[k].name);TECH[k].desc=FXg(g,FORIG.T[k].desc)}
   const nm=FN(g,'hall');B.hall.name=nm;B.chapel.name=nm;
-  if(g===8){B.barracks.desc='The war-hall of the clan. Trains Rams, one at a time. More Dún train more at once. Build it any time.';B.storehouse.desc='An earth-cut store under the turf. A drop-off and a new farm ring: Crofters can work within 4½ squares of it and bring their goods here, so dig them out where the resources are. Goods stored here are lost to raiders if it falls.'}
+  if(g===8){B.barracks.desc='The war-hall of the clan. Trains Celtic Archers and Rams, one at a time. More Dún train more at once. Build it any time.';B.storehouse.desc='An earth-cut store under the turf. A drop-off and a new farm ring: Crofters can work within 4½ squares of it and bring their goods here, so dig them out where the resources are. Goods stored here are lost to raiders if it falls.'}
   {const el=document.querySelector('#ch-sower b');if(el)el.textContent=U.sower.name;const e2=document.getElementById('ch-sower');if(e2)e2.setAttribute('aria-label',U.sower.name)}}
 const BNm=(side,k)=>{const g=G.S[side]?G.S[side].god:-1;if(k==='hall'||k==='chapel')return FN(g,'hall');return FORIG&&FORIG.B[k]?FXg(g,FORIG.B[k].name):B[k].name};
 const EGY=side=>!!(typeof G!=='undefined'&&G&&G.S&&G.S[side]&&G.S[side].god===0);
@@ -4537,9 +4537,11 @@ function updResearch(dt){for(const S of G.S){const r=S.research;if(!r||!S.alive)
 const amt=new Float32Array(WN*WN),seedA=new Uint8Array(WN*WN),wither=new Uint8Array(WN*WN),zone=new Uint8Array(WN*WN),ZNAME=['Open land','Crop land','Forest land','Quarry land','Wild land'],ZCOL=['','#e2c46a','#5f9a5c','#9a96a8','#b48cff'],WCODE={tree:1,wheat:2,rock:3},WKIND=[null,'tree','wheat','rock'];
 function eatOf(k){const t=U[k];if(t.eat!=null)return t.eat;if(t.champ!=null)return .12;if(t.gu)return[.04,.06,.08][t.lv-3]||.05;return t.house*.02}
 const fmtR=v=>v>=10?v.toFixed(0):v>=1?v.toFixed(1):v.toFixed(2);
+// god champions (Cernunnos, Anubis, Hades) are switched off for now: not summoned, listed or fielded
+const CHAMPS=false,CH=g=>CHAMPS?['champ'+g]:[];
 CHAMP.forEach((c,k)=>{U['champ'+k]=Object.assign({name:c.n,role:'Champion',house:4,cost:{souls:25},time:30,bld:'veil',lv:3,champ:k,hitsAir:c.range>1.2||!!c.air},c)});
 U.champ0.steal=.3;
-const ACTIVE=[8,0,1],LABONLY=new Set(['carcher','cdruid']),GACT=f=>ACTIVE.forEach(k=>f(GODS[k],k));
+const ACTIVE=[8,0,1],LABONLY=new Set(['cdruid']),GACT=f=>ACTIVE.forEach(k=>f(GODS[k],k));
 const GU=[
  [{name:'Nubian Warrior',hp:140,dmg:20,rate:.45,range:.9,spd:2.8,item:'censer',hat:'nemes',special:'ritual',desc:'Fast as the desert wind. She sprints in with twin three-pronged blades and flows through a dash, a spinning slash, a butterfly kick and a rising cross-slash. Each attack sequence has a 1 in 10 chance to end in a healing ritual: she drives both blades into the ground, kneels and lights a ring of healing: every ally inside heals 9 health a second for 3\u00bd seconds.'},
   {name:'Mummy',hp:300,dmg:14,rate:.9,range:.8,spd:1.2,look:'mummy',item:'none',special:'wrap',desc:'Anything that hits it up close gets tangled in loose bandages and slowed. The first time it falls, it lies still for 2 seconds and rises again at half health.'},
@@ -4622,7 +4624,7 @@ U.carcherb=Object.assign({},U.carcher,{name:'Celtic Archer',full:'carcher',basic
 U.stoneb=Object.assign({},U.sower,{name:'Stonebearer',role:'Villager',bld:'none',lv:9,desc:'The Egyptian worker: plants and reaps wheat, quarries stone with a maul, draws water from the Wells, and carries every load home.'});U.aged=Object.assign({},U.cdruid,{name:'Aged Druid',role:'Villager \u00b7 Ranged',civ:true,fights:true,base:'sower',house:1,bld:'upgrade',cost:{wheat:3},desc:'The Verdant Druid grown old and powerful. He still plants, reaps and chops, and when enemies come near he fights back, casting orbs of green power at range. His Thorns pin up to 3 enemies for 2 seconds.'});delete U.aged.gu;delete U.aged.god;
 U.grainb=Object.assign({},U.sower,{name:'Grainbearer',egonly:1,desc:'Egypt\u2019s farmer. Sows and reaps wheat on his own and carries the harvest to a Pyramid. He only farms: to change his work, retire him and train another bearer.'});
 U.waterb=Object.assign({},U.sower,{name:'Waterbearer',egonly:1,desc:'Egypt\u2019s water carrier. Draws water from the Wells on his own and carries it to a Pyramid. Every Egyptian troop needs water. He only carries water: to change his work, retire him and train another bearer.'});
-const LABX={8:['cdruid','carcher'],0:['stoneb']};
+const LABX={8:['cdruid'],0:['stoneb']};
 const BATK={
   toll:{batk:'sweep',range:.95,splash:.9,rate:.85,col:'#7fd3ff',bn:'Oar Sweep'},
   heads:{batk:'breath',range:1.7,dmg:12,rate:.9,col:'#ff7a4a',bn:'Hellfire Breath'},
@@ -4645,7 +4647,12 @@ for(const g in GUK)for(const key of GUK[g]){const t=U[key];if(!t.awaken)continue
 U.g0_0.chain=[[0,1],[.51,1],[1.03,1.4]];U.g0_0b.chain=[[0,1],[.41,1],[.91,1.4]];
 // retired units stay in GU so unit keys and research indexes don't shift, but are never trained, listed or fielded.
 // The Rootbound Druid is gone: the Celts' druid is the Verdant Druid villager, which researches into the Aged Druid.
-const RETIRED=new Set(['g8_0','g8_0b']);const GUKL=g=>(GUK[g]||[]).filter(k=>!RETIRED.has(k));
+const RETIRED=new Set(['g8_0','g8_0b','g0_4','g0_4b']);const GUKL=g=>(GUK[g]||[]).filter(k=>!RETIRED.has(k));
+// rosters for now. Celts: Archer (Dún), Verdant/Aged Druid (villager), Great Stag and Ram-horned Serpent (Sídhe Mound).
+// Egypt: Nubian Warrior, Mummy, Scarab Ark, Sphinx (Sobek Guard retired). Greece: Ferryman, Cerberus, Electra.
+// The Celtic Archer takes the retired Rootbound Druid's slot, so the first Awaken research turns her into the Archer Queen.
+GUK[8][0]='carcher';for(const k of['carcher','carcherb'])Object.assign(U[k],{name:'Celtic Archer',bld:'barracks',awaken:'rite1',lv:1});delete U.carcherb.awaken;
+for(const k of['g8_1','g8_1b','g8_2','g8_2b'])U[k].bld='veil';
 U.archer1=Object.assign({},U.archer,{range:4,base:'archer'});U.archer2=Object.assign({},U.archer,{range:5,base:'archer'});
 const baseOf=k=>U[k]&&U[k].base||k,archerKey=side=>hasT(side,'eagle')?'archer2':hasT(side,'longbow')?'archer1':'archer';
 const CHIPS=['sower','grainb','waterb','missionary','ram'];
@@ -4658,7 +4665,7 @@ if(U.g1_1){U.g1_1.heads=true;U.g1_1.special='hellgate';U.g1_1.desc='Three heads,
 if(U.g1_0){U.g1_0.toll=true;if(U.g1_0b)U.g1_0b.toll=true;U.g1_0.special='styx';U.g1_0.desc='Charon takes his toll: every enemy that dies within 3 squares of him pays you 6 wood and 6 wheat. He fights with a three-blow oar combo: a long spear thrust, a great rising sweep and a ground-shaking pound. Awakened, he can call a Styx Surge: he slams the oar down and the river of the dead floods out around him, battering, slowing and drowning every enemy caught in it. He wades through rivers and sea as if they were roads.';if(U.g1_0b)U.g1_0b.desc='The young ferryman of the dead. Every enemy that dies within 3 squares of him pays you 6 wood and 6 wheat, and his oar strikes in a three-blow combo. He wades through rivers and sea as if they were roads.'}
 U.megamummy=Object.assign({},U.g0_1,{name:'Mega Mummy',role:'Undead melee',hp:650,dmg:32,rate:.9,range:1,spd:1.3,house:0,bld:'none',lv:9,special:null,fam:'g0_1',desc:'A Mummy that would not stay dead, risen twice its size.'});for(const f of['awaken','full','basic'])delete U.megamummy[f];
 const B={
-  hall:{name:'Church',hp:2400,s:4,range:3.5,dmg:7,fr:1,hits:'both',desc:'Lose it and you’re out. Upgrade it to open new resources, buildings and troops. Trains Sowers and Missionaries, stores your goods, and researches new skills.'},
+  hall:{name:'Church',hp:2400,s:4,desc:'Lose it and you’re out. Upgrade it to open new resources, buildings and troops. Trains Sowers and Missionaries, stores your goods, and researches new skills.'},
   lumber:{name:'Lumber Mill',hp:300,cost:{wood:20},dep:'tree',res:'wood',per:.075,cap:150,desc:'Gathers wood from every grove tile within 3\u00bd squares. The bigger the forest around it, the faster it fills.'},
   farm:{name:'Farm',hp:280,cost:{wood:20},dep:'wheat',res:'wheat',per:.075,cap:150,desc:'Gathers wheat from every field tile within 3\u00bd squares. Wheat trains your troops and keeps them fed, so you will need more Farms as your army grows.'},
   quarry:{name:'Quarry',hp:300,cost:{wood:40},dep:'rock',res:'stone',per:.06,cap:150,desc:'Gathers stone from every boulder within 3\u00bd squares. Rock gathers on the high ground.'},
@@ -4668,7 +4675,7 @@ const B={
   outpost:{name:'Outpost',hp:600,cost:{wood:110},claim:5.5,desc:'Claims new land around it so you can build there. Needs your troops beside it.'},
   chapel:{name:'Church',hp:700,s:4,cost:{wood:150,stone:50},claim:7,desc:'Another house for your faith, and how you grow. It can only rise on one of the map\u2019s villages, and one of your workers must walk there to build it. It claims the land around it. Adds 5 troop space, and 5 more once it becomes a Temple, and trains Sowers and Missionaries. Every Temple you raise opens deeper research.'},
   barracks:{name:'Barracks',hp:340,cost:{wood:60},desc:'Trains your faith\u2019s frontline troop and Rams, one at a time. More Barracks train more at once. Build it any time.'},
-  veil:{name:'Veil',hp:1500,s:2,cost:{wood:400,stone:400,wheat:200},desc:'A great gate torn in the world. Through it your god\u2019s champion is summoned from beyond, paid for in souls taken from fallen enemies. Needs an Altar. Only one champion walks the world at a time.'},
+  veil:{name:'Veil',hp:1500,s:2,cost:{wood:180,stone:120,wheat:60},desc:'A hollow hill of the Otherworld where the clan\u2019s sacred beasts are raised: the Great Stag and the Ram-horned Serpent. Needs a Dolmen.'},
   storehouse:{name:'Storehouse',hp:420,cost:{wood:50},sow:4.5,desc:'A drop-off and a new farm ring: Sowers can work within 4\u00bd squares of it and bring their goods here, so build them out where the resources are. Goods stored here are lost to raiders if it falls. It also stretches your farm ring: Sowers can plant within 4\u00bd squares of it.'},
   well:{name:'Well',hp:300,cost:{stone:60},house:5,sow:3.5,egy:1,desc:'Water is scarce in Egypt, so Wells are the only way to grow your army: every Well adds 5 troop space. Dig them within 5\u00bd squares of a Pyramid: 4 for each Pyramid, 6 once it is crowned with gold. Each also opens a small farm ring where Sowers can farm and forage. Not a drop-off: loads still go back to a Pyramid.'},
   sphinxmon:{name:'Sphinx Monument',hp:900,cost:{stone:160,wheat:30},egy:1,desc:'A great sandstone sphinx crouched before a temple court. Trains Sphinxes. Needs the Great Pyramid.'},
@@ -4689,7 +4696,7 @@ const unlockAt=k=>LIMIT[k].findIndex(n=>n>0)+1;
 const CLIM=[3,4,6,7,9],COLL=[];
 const collCount=side=>COLL.reduce((n,k)=>n+count(side,k),0);
 const NEEDR={tower:'btower',mortar:'bmortar',sandtrap:'sandtrap'},needR=(side,k)=>EGY(side)&&NEEDR[k]&&!hasT(side,NEEDR[k]);
-function LIM(side,k){if(k==='well'&&EGY(side)){const S=G.S[side];const cs=hasT(side,'cistern')?2:0;let n=S&&S.hall?(S.tier>=2?6:4)+cs:0;for(const b of G.B)if(b.side===side&&b.type==='chapel'&&built(b))n+=(b.temple?6:4)+cs;return n}if(needR(side,k))return 0;if(k==='sandtrap'&&EGY(side))return count(side,'sandtrap')+Math.max(0,12-count(side,'sandtrap')-(G.traps||[]).filter(t=>t.side===side).length);if(EGY(side)?EGX.has(k):B[k]&&B[k].egy)return 0;if(k==='altar')return templeCount(side);if(k==='veil')return count(side,'altar')>0?1:0;const t=G.S[side].tier-1,base=LIMIT[k][t];if(!COLL.includes(k)||!base)return base;return count(side,k)+Math.max(0,CLIM[t]-collCount(side))}
+function LIM(side,k){if(k==='well'&&EGY(side)){const S=G.S[side];const cs=hasT(side,'cistern')?2:0;let n=S&&S.hall?(S.tier>=2?6:4)+cs:0;for(const b of G.B)if(b.side===side&&b.type==='chapel'&&built(b))n+=(b.temple?6:4)+cs;return n}if(needR(side,k))return 0;if(k==='sandtrap'&&EGY(side))return count(side,'sandtrap')+Math.max(0,12-count(side,'sandtrap')-(G.traps||[]).filter(t=>t.side===side).length);if(EGY(side)?EGX.has(k):B[k]&&B[k].egy)return 0;if(k==='altar')return templeCount(side);if(k==='veil')return G.S[side].god===8&&count(side,'altar')>0?1:0;const t=G.S[side].tier-1,base=LIMIT[k][t];if(!COLL.includes(k)||!base)return base;return count(side,k)+Math.max(0,CLIM[t]-collCount(side))}
 const HOME_ONLY=new Set(['barracks','camp','workshop','aerie']);
 const RESLV={water:1,wood:1,wheat:1,stone:1,clay:4,souls:1};
 const BGROUPS=[['Faith',['chapel','altar','veil']],['Army',['barracks','harbor']],['Farm',['storehouse']],['Defend',['tower','mortar','wall']]];
@@ -4816,10 +4823,10 @@ function tryWorld(np){
     const okZ=(c,id)=>{if(!land[c]||beachA[c]||zid[c]>=0)return false;const x=c%WN,y=c/WN|0;if(STARTS.some(h=>Math.hypot(h.x+1-x-.5,h.y+1-y-.5)<5))return false;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const X=x+dx,Y=y+dy;if(!inb(X,Y))continue;const z=zid[idx(X,Y)];if(z>=0&&z!==id)return false}return true};
     const zgrow=(t,x0,y0,n)=>{if(!inb(x0,y0))return 0;const id=nid++,st=idx(x0,y0);if(!okZ(st,id))return 0;const fr=[st],seen=new Set(fr);let got=0;
       while(fr.length&&got<n){const k=Math.floor(Math.pow(R(),1.5)*fr.length),c=fr.splice(k,1)[0];if(!okZ(c,id))continue;zid[c]=id;zone[c]=t;got++;const x=c%WN,y=c/WN|0;for(const[dx,dy]of N4){const X=x+dx,Y=y+dy;if(!inb(X,Y))continue;const m=idx(X,Y);if(!seen.has(m)){seen.add(m);fr.push(m)}}}return got};
-    const SZ=[0,[12,30],[14,40],[8,22],[6,14]],sz=t=>SZ[t][0]+(R()*(SZ[t][1]-SZ[t][0])|0);
+    const SZ=[0,[18,40],[20,48],[12,28],[8,18]],sz=t=>SZ[t][0]+(R()*(SZ[t][1]-SZ[t][0])|0);
     for(const h of STARTS){const cx=h.x+1,cy=h.y+1,ang=R()*TAU;[1,2,3,2].forEach((t,j)=>{for(let q=0;q<16;q++){const a=ang+j*1.57+q*.4,d=j===0?rnd(5.2,6.2):j<=2?rnd(5.3,6.5):rnd(6.2,9.5);if(zgrow(t,Math.floor(cx+Math.cos(a)*d),Math.floor(cy+Math.sin(a)*d),t===3?12:t===1?16:18)>=6)break}})}
     let landN=0;for(let i=0;i<WN*WN;i++)if(land[i])landN++;let cov=0;for(let i=0;i<WN*WN;i++)if(zone[i])cov++;
-    for(let tr=0;tr<3000*MAPAR&&cov<landN*.4;tr++){const x=2+R()*(WN-4)|0,y=2+R()*(WN-4)|0,i=idx(x,y);if(!land[i]||beachA[i]||ldist[i]<2)continue;const e=elev[i],r=R(),TH=THEMES[THEME].zt;let t=r<TH[0]?1:r<TH[1]?2:r<TH[2]?3:4;
+    for(let tr=0;tr<3000*MAPAR&&cov<landN*.1;tr++){const x=2+R()*(WN-4)|0,y=2+R()*(WN-4)|0,i=idx(x,y);if(!land[i]||beachA[i]||ldist[i]<2)continue;const e=elev[i],r=R(),TH=THEMES[THEME].zt;let t=r<TH[0]?1:r<TH[1]?2:r<TH[2]?3:4;
       if(t===3&&e<.55&&R()<.7)t=2;if(t===1&&e>.72)t=3;cov+=zgrow(t,x,y,sz(t))}
     for(const h of STARTS){const cx=h.x+1,cy=h.y+1,ring=[];for(let y=cy-7;y<=cy+7;y++)for(let x=cx-7;x<=cx+7;x++){if(!inb(x,y))continue;const d=Math.hypot(x+.5-cx,y+.5-cy);if(d>=5&&d<=6.8)ring.push(idx(x,y))}
       let n=ring.filter(i=>zone[i]===1).length;for(let g=0;g<40&&n<12;g++){const c=ring.filter(i=>!zone[i]&&land[i]&&!beachA[i]&&isl[i]===isl[idx(cx,cy)]&&(n===0||N4.some(([a,b])=>{const X=i%WN+a,Y=(i/WN|0)+b;return inb(X,Y)&&zone[idx(X,Y)]===1})));if(!c.length)break;zone[c[R()*c.length|0]]=1;n++}}
@@ -4849,6 +4856,12 @@ function tryWorld(np){
       for(let y=Math.floor(p[1]-r);y<=p[1]+r;y++)for(let x=Math.floor(p[0]-r);x<=p[0]+r;x++)if(inb(x,y)&&Math.hypot(x-p[0],y-p[1])<r-.7){const i=idx(x,y);CFLOOR[i]=1;if(!OBS[i])dep[i]=null}}}
     else if(kind==='peak'||kind==='pines'){const n=Math.round((16+(R()*5|0))*MAPAR);for(let k=0;k<n;k++){const p=spot();if(p)ridge(p[0],p[1],R()*TAU,9+(R()*12|0),.45,.55)}}
     else{const n=Math.round((kind==='thicket'?24+(R()*8|0):18+(R()*6|0))*MAPAR);for(let k=0;k<n;k++){const p=spot();if(!p)continue;const m=kind==='thicket'?4+(R()*6|0):2+(R()*4|0);for(let q=0;q<m;q++)put(p[0]+(R()*4|0)-1,p[1]+(R()*4|0)-1)}}
+    // dead regions: big impassable masses (thicket, pine forest, lava field, chasm, giant mushrooms) that split the land into
+    // regions with ways round; the pass below reopens anything that would wall a pocket off
+    {const dk=kind==='craterrim'?'chasm':kind,far=(x,y)=>STARTS.every(h=>Math.hypot(h.x+1-x,h.y+1-y)>=14)&&VILLS.every(v=>Math.hypot(v.x+1.5-x,v.y+1.5-y)>=9);
+      const nb=6+(R()*4|0);for(let k=0,tr=0;k<nb&&tr<500;tr++){const x=6+R()*(WN-12)|0,y=6+R()*(WN-12)|0,i=idx(x,y);if(!land[i]||ldist[i]<4||!far(x,y))continue;k++;
+        const r=6+R()*5,a=R()*Math.PI,ca=Math.cos(a),sa=Math.sin(a),el=.32+R()*.28;
+        for(let yy=Math.floor(y-r-1);yy<=y+r+1;yy++)for(let xx=Math.floor(x-r-1);xx<=x+r+1;xx++){const dx=xx-x,dy=yy-y,u=(dx*ca+dy*sa)/r,v=(-dx*sa+dy*ca)/(r*el);if(u*u+v*v<.75+.5*vnoise(xx/2.5,yy/2.5,SEED+71)&&far(xx,yy))put(xx,yy,dk)}}}
     // never seal off    // never seal off part of an island: open any obstacle that walls in a pocket (the volcano itself stays)
     for(let it=0;it<10;it++){const comp=new Int32Array(WN*WN).fill(-1),csz=[],cisl=[];let nc=0;
       for(let i=0;i<WN*WN;i++){if(!land[i]||OBS[i]||comp[i]>=0)continue;const q=[i];comp[i]=nc;for(let h=0;h<q.length;h++){const c=q[h],x=c%WN,y=c/WN|0;for(const[a,b]of N4){const X=x+a,Y=y+b;if(!inb(X,Y))continue;const m=idx(X,Y);if(land[m]&&!OBS[m]&&comp[m]<0){comp[m]=nc;q.push(m)}}}csz.push(q.length);cisl.push(isl[i]);nc++}
@@ -5722,6 +5735,7 @@ function aiBuild(ai){
   const k=ai.side,S=G.S[k],PL=EGY(k)?PLAN_E:PLAN;let item=PL[ai.step];
   if(!item)item=(EGY(k)?['tower','mortar','well','sphinxmon','chapel','TEMPLE','altar','wabet','well']:['tower','cannon','mortar','barracks','W4','chapel','TEMPLE','altar','storehouse','storehouse'])[R()*10|0];
   const next=()=>{if(ai.step<PL.length)ai.step++;ai.wait=0};
+  if(item==='veil'&&S.god!==8){next();return}
   if(item==='harbor'||item==='outpost'){next();return}
   if(ai.wait>25&&ai.step<PL.length&&!['harbor','barracks','lumber','farm','HALL','altar','well','wabet','chapel'].includes(item)){next();return}
   if(item==='TEMPLE'){const c=G.B.find(b=>b.side===k&&b.type==='chapel'&&!b.temple);if(!c){next();return}if(can(k,TEMPLECOST)){pay(k,TEMPLECOST);c.temple=true;c.max+=400;c.hp+=400;next()}return}
@@ -5756,7 +5770,7 @@ function aiTrain(ai){
   const k=ai.side,S=G.S[k];
   if(S.god>=0&&BLESS[S.god]){const d=G.B.find(b=>b.side===k&&b.bless==null&&BLESS[S.god][b.type]);if(d&&false){pay(k,BLESSCOST);d.bless=S.god;d.max+=150;d.hp+=150}}
   {const dl=S.drill||0,D2=DRILL[dl];if(D2&&S.tier>=D2.tier&&G.B.some(b=>b.side===k&&b.type==='barracks')&&RES.every(r=>!D2.cost[r]||S.res[r]>D2.cost[r]+3)){pay(k,D2.cost);S.drill=dl+1}}
-  if(S.god>=0&&!hasChamp(k)){const key='champ'+S.god,al=G.B.find(b=>b.side===k&&b.type==='veil');if(al&&can(k,U[key].cost)){pay(k,U[key].cost);al.queue.push(key)}}
+  if(CHAMPS&&S.god>=0&&!hasChamp(k)){const key='champ'+S.god,al=G.B.find(b=>b.side===k&&b.type==='veil');if(al&&can(k,U[key].cost)){pay(k,U[key].cost);al.queue.push(key)}}
   {const civN=n=>G.units.filter(u=>u.side===k&&u.type===n).length+S.hall.queue.filter(q=>q===n).length;
     if(!S.hall.queue.length&&housing(k)<cap(k)){const eg=EGY(k),tot=eg?civN('sower')+civN('grainb')+civN('waterb'):civN('sower'),pick=eg?[['waterb',1],['grainb',1.6],['sower',1.6]].sort((a,b)=>civN(a[0])/a[1]-civN(b[0])/b[1])[0][0]:'sower';const want=tot<Math.min((ai.wantSow||4)+(eg?2:0),Math.max(3,cap(k)-2))?pick:!eg&&cap(k)>=15&&civN('missionary')<1&&G.t>200?'missionary':null;if(want&&can(k,U[want].cost)&&(want!=='missionary'||S.res.wheat>U[want].cost.wheat+3)){pay(k,U[want].cost);S.hall.queue.push(want)}}}
   if(housing(k)>=cap(k)||S.res.wheat<3)return;
@@ -7362,7 +7376,7 @@ let PICKGOD=[8,0,1][Math.random()*3|0];let panelInfo=false,shapeMenu=false;
 const UIURL={};const iconVer=k=>{const g=playerGod(),m=window.MODELS||{},key=k==='sower'?(g===0?'stoneb':g===8?'vdruid':g===1?'grkw':''):k==='aged'?'adruid':(k==='grainb'||k==='waterb')?k:'';return key&&m[key]?'3'+g:'2'+g};
 function uIconURL(k){const v=k+iconVer(k);if(UIURL[v])return UIURL[v];unitIcon.ok=false;const url=unitIcon(k,44,48).toDataURL();if(v[k.length]!=='3'||unitIcon.ok)UIURL[v]=url;return url}
 const QMAX=5;
-function trainList(b){const S=G.S[b.side];const gk=w=>S.god>=0?GUKL(S.god).filter(k=>U[k].bld===w):[];const ks=b.type==='hall'||b.type==='chapel'?[...CIV.filter(k=>U[k].bld==='hall'),...gk('hall')]:b.type==='barracks'?[...gk('barracks'),...UORDER.filter(k=>U[k].bld==='barracks'||U[k].alt==='barracks')]:b.type==='altar'?gk('altar'):b.type==='wabet'?gk('wabet'):b.type==='sphinxmon'?gk('sphinxmon'):[];return ks.filter(k=>U[k]&&hasT(b.side,U[k].tech)&&S.tier>=U[k].lv&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0))}
+function trainList(b){const S=G.S[b.side];const gk=w=>S.god>=0?GUKL(S.god).filter(k=>U[k].bld===w):[];const ks=b.type==='hall'||b.type==='chapel'?[...CIV.filter(k=>U[k].bld==='hall'),...gk('hall')]:b.type==='barracks'?[...gk('barracks'),...UORDER.filter(k=>U[k].bld==='barracks'||U[k].alt==='barracks')]:b.type==='altar'?gk('altar'):b.type==='veil'?gk('veil'):b.type==='wabet'?gk('wabet'):b.type==='sphinxmon'?gk('sphinxmon'):[];return ks.filter(k=>U[k]&&hasT(b.side,U[k].tech)&&S.tier>=U[k].lv&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0))}
 function qWhy(b,k){const t=U[k];if(b.queue.length>=QMAX)return`Queue is full (${QMAX}).`;if(t.champ!=null&&hasChamp(0))return`Your ${t.name} is already in the field.`;if(t.champ==null&&housing(0)+t.house>cap(0))return EGY(0)?'Your army is full. Dig another Well for more room.':'Your army is full. Build another Church, or turn a Church into a Temple, for more room.';if(!can(0,t.cost))return`Not enough materials for a ${t.name}.`;return''}
 function panelHTML(b){
   const D=DEFOF(b),S=G.S[b.side],mine=b.side===0;
@@ -7376,7 +7390,7 @@ function panelHTML(b){
       if(S.tier<MAXT){hup=upB('up',TEMPLECOST);h+=EGY(0)?`<div class="pd">Crowning the Pyramid with a gold capstone makes it the Great Pyramid: a bigger store, tougher walls, and it opens the Wabet and the Altar. (Troop space still comes only from Wells.)</div>`:`<div class="pd">Becoming a Temple adds 5 troop space (5 to 10), makes it tougher and counts toward deeper research: one Temple opens tier 2, two open tier 3.</div>`}
       if(false){const more=Object.keys(LIMIT).filter(k=>k!=='wall'&&!COLL.includes(k)&&LIMIT[k][S.tier]>LIMIT[k][S.tier-1]).map(k=>B[k].name);const opens=RES.filter(r=>RESLV[r]===S.tier+1),units=[...UORDER,...(S.god>=0?GUKL(S.god):[])].filter(k=>U[k].lv===S.tier+1).map(k=>U[k].name+'s');h+=`<div class="pd">Level ${S.tier+1}: tier ${S.tier+1} research, ${opens.length?`<b>${opens.join(', ')} opens</b>, `:''}${units.length?units.join(' and ')+', ':''}${more.length?'more '+more.join(', ')+', ':''}and a tougher Church.</div>`}
       if(S.tier>=MAXT)h+='<div class="pd">A Temple. Holds 10 troops.</div>'}
-    if(b.type==='veil'){if(S.god<0)h+='';else{const ck='champ'+S.god;h+=`<div class="pd">You hold <b>${Math.floor(S.res.souls)} souls</b>. ${U[ck].name}: ${U[ck].desc}</div>`;acts.push(hasChamp(0)?`<button class="btn" disabled>Champion out</button>`:btn('champ','Summon',U[ck].cost))}}
+    if(b.type==='veil'&&CHAMPS){if(S.god<0)h+='';else{const ck='champ'+S.god;h+=`<div class="pd">You hold <b>${Math.floor(S.res.souls)} souls</b>. ${U[ck].name}: ${U[ck].desc}</div>`;acts.push(hasChamp(0)?`<button class="btn" disabled>Champion out</button>`:btn('champ','Summon',U[ck].cost))}}
     if(b.type==='barracks'){const dl=S.drill||0;h+=`<div class="pd"><b>Troop speed +${dl*12}%</b>${dl<3?` \u00b7 next: ${DRILL[dl].name}, +12% move speed for every troop you own`:' \u00b7 fully drilled'}</div>`;if(false){const D2=DRILL[dl];acts.push(btn('drill',S.tier<D2.tier?`Drill \u00b7 Lv ${D2.tier}`:`Drill +12%`,D2.cost,S.tier<D2.tier))}}
     if(b.type==='chapel'&&EGY(0)){if(!b.temple)hup=upB('ctemple',TEMPLECOST);h+=`<div class="pd">${b.temple?'A gold-crowned Pyramid. It':'Crown it with gold to make it a Temple, which'} counts toward deeper research. Egyptian troop space comes from Wells.</div>`}else if(b.type==='chapel'){if(!b.temple){hup=upB('ctemple',TEMPLECOST);h+=`<div class="pd">Adds 5 troop space. As a Temple it adds 10 and counts toward deeper research.</div>`}else h+=`<div class="pd">A Temple. Adds 10 troop space.</div>`}if(['barracks','chapel','hall','altar'].includes(b.type)){if(b.queue.length){}else if(b.type==='barracks')h+=`<div class="pd">Idle. Each Barracks trains one troop at a time.</div>`}
     if(b.type==='harbor'){const[tk,wk]=shipKinds(0),T1=SHIPK[tk],W1=SHIPK[wk],s=S.ship,w=S.war&&!S.war.dead?S.war:null;h+=`<div class="pd"><b>${T1.n}</b>: ${T1.d}</div><div class="pd"><b>${W1.n}</b>: ${W1.d}${S.tier<2?' Needs your second level.':''}</div>`;
@@ -7414,7 +7428,7 @@ $('panel').addEventListener('click',e=>{
   if(a==='train'){const at=null;select(null);openTrain(at);return}
   if(a==='qt'){const k=el.dataset.k;if(!b||b.side!==0||!built(b)||!trainList(b).includes(k))return;const why=qWhy(b,k);if(why){toast(why);return}pay(0,U[k].cost);b.queue.push(k);el.classList.add('pop');setTimeout(()=>{lastPanel='';renderHUD(true)},120);return}
   if(a==='qx'){const i=+el.dataset.i;if(!b||b.side!==0||!(i>=0&&i<b.queue.length))return;const k=b.queue.splice(i,1)[0];const c=CX(0,U[k].cost);for(const r in c)G.S[0].res[r]+=c[r];if(i===0)b.qt=0;toast(`${U[k].name} cancelled. Cost refunded.`);lastPanel='';renderHUD(true);return}
-  if(a==='champ'){const ck='champ'+S.god;if(b.type==='veil'&&!hasChamp(0)&&can(0,U[ck].cost)){pay(0,U[ck].cost);b.queue.push(ck);toast(`Your ${U[ck].name} arrives in ${U[ck].time} seconds.`)}}
+  if(a==='champ'&&CHAMPS){const ck='champ'+S.god;if(b.type==='veil'&&!hasChamp(0)&&can(0,U[ck].cost)){pay(0,U[ck].cost);b.queue.push(ck);toast(`Your ${U[ck].name} arrives in ${U[ck].time} seconds.`)}}
   if(a==='drill'){const dl=S.drill||0,D2=DRILL[dl];if(D2&&S.tier>=D2.tier&&can(0,D2.cost)){pay(0,D2.cost);S.drill=dl+1;burst(bcx(b),bcy(b),['#f2c14e','#fff4cf'],16);toast(`${D2.name} done. Your troops move ${S.drill*12}% faster.`)}}
   if(a==='guns'&&!b.guns&&S.tier>=2&&can(0,GUNCOST)){pay(0,GUNCOST);b.guns=true;const s=S.ship;if(s&&!s.dead&&!s.armed){s.armed=true;s.max+=GUN.hp;s.hp+=GUN.hp;burst(s.x,s.y,['#3b3550','#fbf6ee'],12)}toast('Cannons mounted. Your ships are now warships.')}
   if(a==='newship'&&can(0,SHIPCOST)){pay(0,SHIPCOST);S.ship=makeShip(0,b.dock.x,b.dock.y);toast(`A new ${SK(S.ship).n} is docked at your ${BNm(0,'harbor')}.`)}
@@ -7430,7 +7444,7 @@ function openBuild(){
   s.innerHTML=`<div class="sh"><h2>Build</h2><span class="tag">${S.tier>=2?FN(S.god,'temple'):FN(S.god,'hall')} \u00b7 army ${housing(0)} / ${cap(0)}</span><button class="x" id="sclose" aria-label="Close">×</button></div>`;
   for(const[g,list]of BGR(0)){
     s.insertAdjacentHTML('beforeend',`<div class="grp">${g}${g==='Gather'?` \u00b7 ${collCount(0)} of ${CLIM[S.tier-1]} collectors, any mix`:''}</div>`);const grid=document.createElement('div');grid.className='cards rows';
-    for(const k of list){const D=BD(0,k),lim=LIM(0,k),n=count(0,k),locked=k==='altar'?templeCount(0)<1:k==='veil'?count(0,'altar')<1:LIMIT[k][S.tier-1]===0||needR(0,k),full=n>=lim&&!locked,isC=COLL.includes(k);
+    for(const k of list){if(k==='veil'&&S.god!==8)continue;const D=BD(0,k),lim=LIM(0,k),n=count(0,k),locked=k==='altar'?templeCount(0)<1:k==='veil'?count(0,'altar')<1:LIMIT[k][S.tier-1]===0||needR(0,k),full=n>=lim&&!locked,isC=COLL.includes(k);
       const c=mkCard();c.className='card'+(locked||full?' locked':'');
       c.innerHTML=`<div class="t"></div>${costHTML(D.cost)}${BTIME[k]?`<div class="tags"><i>${BTIME[k]}s to build</i></div>`:''}`;c.dataset.key='b:'+k;addInfo(c,D.desc,'Build');const t=c.firstChild;t.appendChild(bldIcon(k,(k==='tower'||k==='mortar')&&BLESS[S.god]&&BLESS[S.god][k]?S.god:undefined));t.insertAdjacentHTML('beforeend',`<span class="nm"><b>${D.name}</b><span class="lim">${locked&&needR(0,k)?'Needs research':locked?'Needs '+(k==='veil'?FN(S.god,'altar'):FN(S.god,'temple')):isC?`${n} \u00b7 ${collCount(0)}/${CLIM[S.tier-1]}`:`${n}/${lim}`}</span></span>`);
       c.onclick=()=>{
@@ -7551,7 +7565,7 @@ function openAdmin(){if(ADM.rich==null){ADM.rich=true;toast('Admin: unlimited re
   const used=new Set();const group=(title,col,keys)=>{keys=keys.filter(k=>U[k]&&!used.has(k));if(!keys.length)return;const h=document.createElement('div');h.className='grp';h.innerHTML=(col?`<i style="background:${col}"></i>`:'')+title;body.appendChild(h);
     const grid=document.createElement('div');grid.className='ug';for(const k of keys){used.add(k);const t=U[k],b=document.createElement('button');b.className='ub';b.appendChild(unitIcon(k));b.insertAdjacentHTML('beforeend',`${t.name}<small>${t.champ!=null?'Champion':t.role||''}</small>`);b.onclick=()=>admSpawn(k);grid.appendChild(b)}body.appendChild(grid)};
   group('Basic',null,[...CIV,...UORDER]);
-  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...GUKL(gi),'champ'+gi]));
+  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...GUKL(gi),...CH(gi)]));
   {const seen=new Set([...used].map(k=>U[k].name));group('Other',null,Object.keys(U).filter(k=>{const t=U[k];if(!t.name||t.basic||t.dummy||seen.has(t.name))return false;seen.add(t.name);return true}))}
   s.hidden=false;$('sclose').onclick=closeSheet}
 function closeSheet(){$('sheet').hidden=true;sheetMode=null;hidePop();const t=$('techov');if(t)t.hidden=true}
@@ -7569,7 +7583,7 @@ function addInfo(card,html,label){const d=document.createElement('div');d.classN
 let OPENROW=null;
 let cxOpen=false,cxFilter='all',cxCards=[],cxObs=null;
 function codexGroups(){const gs=[{key:'base',title:'Common troops',sub:'Rams train at the Barracks, beside each faith\u2019s frontline troop. Rams are the only troop that breaks walls.',units:['ram']},{key:'base',title:'Villagers',units2:0,sub:'Trained at your Church. Sowers grow every bit of wheat you get and replant your forests; research Shape the Land and they will turn open land into fields and forests by themselves. Missionaries raise your troops\u2019 rank.',units:CIV}];
-  GACT((g,k)=>gs.push({key:'g'+k,god:k,title:g.n,sub:`${g.land} · ${g.ab}: ${g.d} ${['','','Both','All three'][GUKL(k).length]||'All'} faith troops train at the Altar (which needs a Temple) and fight with a normal attack until you research each one\u2019s special attack. Their champion is summoned at the Veil. Their champion, ${CHAMP[k].n}, is summoned at the Veil with souls.${BLESS[k]?' Research can also bless your defenses.':''}`,units:[...GUKL(k),'champ'+k],defs:BLESS[k]?['tower','cannon','mortar']:[]}));
+  GACT((g,k)=>gs.push({key:'g'+k,god:k,title:g.n,sub:`${g.land} · ${g.ab}: ${g.d} ${['','','Both','All three'][GUKL(k).length]||'All'} faith troops train at the Altar (which needs a Temple) and fight with a normal attack until you research each one\u2019s special attack. Their champion is summoned at the Veil. Their champion, ${CHAMP[k].n}, is summoned at the Veil with souls.${BLESS[k]?' Research can also bless your defenses.':''}`,units:[...GUKL(k),...CH(k)],defs:BLESS[k]?['tower','cannon','mortar']:[]}));
   gs.push({key:'defs',title:'Defenses',sub:'Every player can build these. After pledging, your Temple can bless a Tower, Cannon or Mortar into its god\u2019s version.',units:[],defs:['tower','cannon','mortar'],god:null,base:true});
   GACT((g,k)=>{if(BLESS[k])gs.push({key:'defs',title:'Blessed by '+g.n,god:k,sub:`${g.ab} defenses. Bless for ${Object.entries(BLESSCOST).map(([a,v])=>v+' '+a).join(' and ')}: +35% damage, +150 health and a new power.`,units:[],defs:['tower','cannon','mortar']})});return gs}
 function openCodex(){cxOpen=true;$('codex').hidden=false;renderCodexFilters();renderCodex()}
@@ -7580,7 +7594,7 @@ function openMech(){const el=$('mxb'),g=G&&G.S&&G.S[0]&&G.S[0].god>=0?G.S[0].god
   const row=(icon,title,tags,text)=>{const r=document.createElement('div');r.className='mrow';r.appendChild(icon);r.insertAdjacentHTML('beforeend',`<div><b>${title}</b><div class="tg">${tags.join('')}</div><div class="mt">${text}</div></div>`);box.appendChild(r)};
   const cost=c=>c?Object.entries(c).filter(e=>e[1]).map(([k,v])=>v+' '+k).join(', '):'free';
   const UN=k=>U[k].name,T=k=>techName(k,0);
-  const TRAINS={hall:['sower','missionary'],chapel:['sower','missionary'],barracks:[...GUKL(g).filter(k=>U[k].bld==='barracks'),'ram'],altar:GUKL(g).filter(k=>U[k].bld==='altar'),veil:['champ'+g]};
+  const TRAINS={hall:['sower','missionary'],chapel:['sower','missionary'],barracks:[...GUKL(g).filter(k=>U[k].bld==='barracks'),'ram'],altar:GUKL(g).filter(k=>U[k].bld==='altar'),veil:GUKL(g).filter(k=>U[k].bld==='veil')};
   const UP={sower:['mining','tools','veins','shape','quarry','swift','bounty'],ram:['drill','march'],storehouse:['granary','vaults'],tower:['btower'],cannon:['bcannon'],mortar:['bmortar'],};GUK[g].forEach((k,i)=>UP[k]=['rite'+Math.min(3,i+1)]);
   h3('The loop');p(`Sowers do all the work, but only inside your farm rings (7 squares around each Church, plus each Storehouse): they plant wheat and trees, then reap, chop and mine, carry up to 3 and walk it back to a Church or Storehouse, where it counts. Wood and stone build; wheat trains. Each Church holds 30 of each resource, Storehouses add more, and a fallen Storehouse hands its goods to the raider. Troop space starts at 5; every Church, and every Church turned Temple, adds 5.`);
   h3('Buildings');
@@ -7591,7 +7605,7 @@ function openMech(){const el=$('mxb'),g=G&&G.S&&G.S[0]&&G.S[0].god>=0?G.S[0].god
     else if(tr)text=`Trains <b>${tr.map(UN).join(', ')}</b>. `+D.desc;if(up)text+=` <b>Research:</b> ${up.map(T).join(' \u2192 ')}.`;
     row(bldIcon(k),nm||D.name,tags,text)}
   h3('Units');
-  const UL=[['sower','hall'],['missionary','hall'],['ram','barracks'],...GUKL(g).map(k=>[k,U[k].bld]),['champ'+g,'veil']];
+  const UL=[['sower','hall'],['missionary','hall'],['ram','barracks'],...GUKL(g).map(k=>[k,U[k].bld]),...CH(g).map(k=>[k,'veil'])];
   for(const[k,src]of UL){const t=U[k],up=UP[k];const tags=[`<i>${src==='hall'?'Church':B[src].name}</i>`,t.water?'<i class="w">Water</i>':'',`<i>${cost(t.cost)}</i>`,`<i>${t.time}s</i>`,t.champ!=null?'<i class="k">One at a time</i>':''];
     row(unitIcon(k,52,48),t.name,tags,t.desc+(up?` <b>Research:</b> ${up.map(T).join(' \u2192 ')}.`:''))}
   h3('Research tree');p('Research only ever adds an extra ability; it never unlocks a unit or building. One study at a time, at your Church or Temple. Tier 1 is open from the start, tier 2 needs one Temple, tier 3 needs two. Faith awakenings also need an Altar.');
@@ -8141,7 +8155,7 @@ function renderGodPick(){const el=$('gpick');if(!el)return;applyNames(PICKGOD);e
       d.insertAdjacentHTML('beforeend',`<p class="eco"><b>Workers:</b> ${FN(k,'sowers')} \u00b7 <b>House of faith:</b> ${FN(k,'hall')} \u2192 ${FN(k,'temple')}${k===0?'':` \u00b7 <b>War-hall:</b> ${FN(k,'barracks')} \u00b7 <b>Store:</b> ${FN(k,'storehouse')}`} \u00b7 <b>Altar:</b> ${FN(k,'altar')} \u00b7 <b>Gate:</b> ${FN(k,'veil')}</p>`);
       d.insertAdjacentHTML('beforeend','<h4>Faith troops</h4>');
       GUKL(k).forEach((key,i)=>{const t=U[key];d.appendChild(row(key,`<b>${t.name}</b>${t.water?'<i class="w">Water</i>':''}<i>${{hall:FN(k,'hall'),wabet:'Wabet',sphinxmon:'Sphinx Monument',altar:FN(k,'altar'),barracks:FN(k,'barracks')}[U[key].bld]||FN(k,'altar')}</i>${U[key].bn?`<i>${U[key].sup?'Ability':'Attack'}: ${U[key].bn}</i>`:''}<i class="k">Special: ${spName(key)} \u00b7 by research</i><br>${t.desc}`))});
-      const ck='champ'+k,C=U[ck];d.insertAdjacentHTML('beforeend','<h4>Champion · summoned at the Veil with 25 souls</h4>');d.appendChild(row(ck,`<b>${C.name}</b><i class="k">Special: ${spName(ck)}</i><br>${C.desc}`));
+      if(CHAMPS){const ck='champ'+k,C=U[ck];d.insertAdjacentHTML('beforeend','<h4>Champion · summoned at the Veil with 25 souls</h4>');d.appendChild(row(ck,`<b>${C.name}</b><i class="k">Special: ${spName(ck)}</i><br>${C.desc}`));}
       c.appendChild(d)}
     el.appendChild(c)});
   const sb=$('startbtn');if(sb)sb.textContent=`Begin as ${GODS[PICKGOD].n}`}
@@ -8152,7 +8166,7 @@ const AR={teams:[{god:-1,u:{},d:{}},{god:-1,u:{},d:{}}]};
 try{const sv=JSON.parse(localStorage.getItem('tb_arena')||'null');if(sv&&sv.teams&&sv.teams.length===2)AR.teams=sv.teams}catch(e){}
 const arSave=()=>{try{localStorage.setItem('tb_arena',JSON.stringify({teams:AR.teams}))}catch(e){}};
 const AR_DEF=['tower','cannon','mortar','flak'];
-function arUnits(t){const T=AR.teams[t],l=[...UORDER];if(T.god>=0)l.push(...GUKL(T.god),'champ'+T.god);return l}
+function arUnits(t){const T=AR.teams[t],l=[...UORDER];if(T.god>=0)l.push(...GUKL(T.god),...CH(T.god));return l}
 function arDefs(t){const T=AR.teams[t],l=AR_DEF.map(k=>({key:k,name:B[k].name}));if(T.god>=0&&BLESS[T.god])for(const k of['tower','cannon','mortar'])l.push({key:k+'@'+T.god,name:BLESS[T.god][k].name});return l}
 function openArena(){if(G&&G.started&&!G.arena&&!G.over&&!openArena.warned){openArena.warned=true;toast('Opening the Proving Grounds ends your current game. Tap again to go.',true);setTimeout(()=>openArena.warned=false,3500);return}
   if(cxOpen)closeCodex();$('startover').hidden=true;$('endover').hidden=true;$('arhud').hidden=true;$('arset').hidden=false;renderArena()}
@@ -8182,7 +8196,7 @@ function newArena(){
   // defenses
   AR.teams.forEach((T,t)=>{let n=0;for(const key in T.d){const[ty,g]=key.split('@');for(let i=0;i<T.d[key];i++){const col=Math.floor(n/5),r=n%5;n++;const x=t===0?38-col*2:61+col*2,y=43+r*3;if(!inb(x,y)||cells[idx(x,y)])continue;const b=place(t,ty,x,y);if(g!=null){b.bless=+g;b.max+=150;b.hp=b.max}}}});
   // troops in blocks
-  AR.teams.forEach((T,t)=>{const list=[];for(const k in T.u)if(U[k]&&!RETIRED.has(k))for(let i=0;i<T.u[k];i++)list.push(k);list.sort((a,b)=>(U[b].range>1.2?0:1)-(U[a].range>1.2?0:1));
+  AR.teams.forEach((T,t)=>{const list=[];for(const k in T.u)if(U[k]&&!RETIRED.has(k)&&(CHAMPS||U[k].champ==null))for(let i=0;i<T.u[k];i++)list.push(k);list.sort((a,b)=>(U[b].range>1.2?0:1)-(U[a].range>1.2?0:1));
     list.forEach((k,i)=>{const row=i%10,col=Math.floor(i/10),x=t===0?42-col*.9:58+col*.9,y=45.5+row*.95+(col%2)*.4;const u=makeUnit(k,t,x,y,'brawl');u.fx=t===0?1:-1;u.fy=0;G.units.push(u)})});
   G.start=[0,1].map(k=>G.units.filter(u=>u.side===k).length);G.paused=false;
   selected=null;buildMode=null;SEL=new Set();SELSHIP=null;
