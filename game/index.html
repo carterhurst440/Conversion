@@ -7132,6 +7132,7 @@ function buildUI(){
   mk('lab','Movement Lab',null,()=>openLab());
   mk('army','Army',null,()=>{const us=G.units.filter(u=>u.side===0&&!u.leap&&!u.undead);if(!us.length){toast('No troops yet. Train some at your Barracks.');return}const away=us.filter(u=>homeT[cellAt(u.x,u.y)]!==0),g=away.length?away:us;let ax=0,ay=0;for(const u of g){ax+=u.x;ay+=u.y}centerOnPt(ax/g.length,ay/g.length)});
   mk('riv','Rivals',null,()=>{const seen=G.S.filter(T=>T.side&&T.alive&&T.hall&&T.hall.seen);if(!seen.length){toast('Rivals are hidden in the fog. Send troops out to scout.');return}G.rivI=((G.rivI||0)+1)%seen.length;const h=seen[G.rivI].hall;centerOnPt(bcx(h),bcy(h))});
+  setTimeout(()=>mk('exit','Main menu',null,e=>{const b=$('plexit');if(b.dataset.arm){location.href='../index.html';return}e.stopPropagation();b.dataset.arm='1';$('pbexit').textContent='Tap again to leave';clearTimeout(b._t);b._t=setTimeout(()=>{delete b.dataset.arm;$('pbexit').textContent=''},3000)}));
   const C=$('chips');C.innerHTML='';
   for(const k of CHIPS){const b=document.createElement('button');b.className='chip';b.id='ch-'+k;const nm=k==='ship'?'Ship':k==='champ'?'Faith troops':k==='civ'?'Villagers':U[k].name;b.setAttribute('aria-label',nm);b.appendChild(unitIcon(k,42,50));b.insertAdjacentHTML('beforeend',`<b>${k==='champ'?'Faith':k==='civ'?'Folk':nm}</b><span class="n" id="cn-${k}">0</span>`);b.onclick=()=>chipTap(k);C.appendChild(b)}
 }

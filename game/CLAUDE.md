@@ -1,6 +1,8 @@
 # CONVERSION — island RTS
 
-A real-time island strategy game in one page: `index.html` (all game code, ~1.2 MB) plus the 3D models in `m/*.js`. No build step, no frameworks: vanilla JS + 2D canvas, with Three.js r128 (from cdn.jsdelivr.net) used only to render the 3D units.
+A real-time island strategy game in one page: `index.html` (all game code, ~1.2 MB) plus the 3D models in `m/*.js`. No build step, no frameworks: vanilla JS + 2D canvas, with Three.js r128 (vendored in `vendor/three/`) used only to render the 3D units.
+
+It's embedded in the app at the repo root: the app's Play button opens `game/index.html`, and the ••• menu's "Main menu" item (`mk('exit',…)`) goes back to `../index.html`.
 
 ## Run it
 Open `index.html` in a browser (file:// works: models load through `<script>` tags), or serve the folder (`python3 -m http.server`). It is played mostly on iPhone Safari, so mobile performance and memory matter.
@@ -34,4 +36,4 @@ Open `index.html` in a browser (file:// works: models load through `<script>` ta
 - Test changes with screenshots (Playwright, tests/), on phone-sized viewports (390×844, DPR 2–3).
 
 ## Tests
-`tests/` has Playwright scripts (`pip install playwright`, Chromium). They expect Three.js r128 locally: `npm i three@0.128.0` (scripts route the CDN to `node_modules/three`). Examples: `python3 tests/tlab5.py Electra 0 shots/el.png sp 3.2` (lab, special), `python3 tests/tar11.py index.html '<teams json>' 1.2` (arena), `python3 tests/tleak.py index.html '<teams json>'` (GPU texture leak check), `python3 tests/view.py model.glb out.png` (4-view model preview). Create a `shots/` folder first.
+`tests/` has Playwright scripts (`pip install playwright`, Chromium). Three.js now loads from `vendor/three/`, so the scripts' CDN routing is no longer needed. Examples: `python3 tests/tlab5.py Electra 0 shots/el.png sp 3.2` (lab, special), `python3 tests/tar11.py index.html '<teams json>' 1.2` (arena), `python3 tests/tleak.py index.html '<teams json>'` (GPU texture leak check), `python3 tests/view.py model.glb out.png` (4-view model preview). Create a `shots/` folder first.
