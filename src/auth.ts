@@ -1,6 +1,16 @@
+import { Capacitor } from '@capacitor/core';
 import { supabase, type UserProfile } from './supabase';
 
 export const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,20}$/;
+
+// Where email links (confirmation, later password reset) send people. On the
+// web that's the site they signed up on; the iOS app's own origin
+// (capacitor://localhost) can't be opened from an email, so use the public site.
+function emailRedirectUrl() {
+  return Capacitor.isNativePlatform()
+    ? import.meta.env.VITE_SITE_URL
+    : window.location.origin;
+}
 
 export async function signUp(email: string, password: string, username: string) {
   if (!USERNAME_PATTERN.test(username)) {
@@ -16,7 +26,7 @@ export async function signUp(email: string, password: string, username: string) 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { username }, emailRedirectTo: window.location.origin },
+    options: { data: { username }, emailRedirectTo: emailRedirectUrl() },
   });
   if (error) throw error;
 
