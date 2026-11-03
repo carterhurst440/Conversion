@@ -403,7 +403,7 @@ body.arena #grps,body.arena #top,body.arena #bot,body.arena #mini{display:none!i
 'use strict';
 // ===== R3D: real-time 3D rigs for selected troops, rendered into an atlas and drawn into the 2D game in depth order =====
 window.MODELS={};(function(){if(typeof THREE==='undefined'||!THREE.GLTFLoader)return;const KS=['ewar','bearer','ark','sphinx','ewarb','archerb','stoneb','grainb','waterb','grkw','charon','charonu','cer','cerb','mumm','mega','fury','furyu','croc','crocu','archer','vdruid','adruid'];const L=new THREE.GLTFLoader();const go=k=>{try{const M=window.__MD||{},s64=M[k];if(!s64)return;delete M[k];const bin=atob(s64),buf=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)buf[i]=bin.charCodeAt(i);L.parse(buf.buffer,'',g=>{window.MODELS[k]=g},e=>console.warn('model',k,e))}catch(e){console.warn('model',k,e)}};for(const k of KS){const sc=document.createElement('script');sc.src='m/'+k+'.js?v=1793662903';sc.onload=()=>go(k);sc.onerror=()=>console.warn('model file',k);document.head.appendChild(sc)}})();
-window.CROPBAKE={"vdruid@30":{"x0":0.4030612244897959,"x1":0.5765306122448979,"y0":0.42999999999999994,"y1":0.8318181818181818},"adruid@30":{"x0":0.4229838709677419,"x1":0.6403225806451613,"y0":0.43157894736842106,"y1":0.8226600985221675},"archer@30":{"x0":0.38125,"x1":0.6734104046242774,"y0":0.3344632768361582,"y1":0.8169491525423729},"druid@30":{"x0":-0.25,"x1":1.25,"y0":0.16309523809523807,"y1":0.9488636363636364},"stag@30":{"x0":0.16714285714285715,"x1":0.8355421686746987,"y0":0.11042944785276074,"y1":0.901840490797546},"serpentf@30":{"x0":0.40340909090909094,"x1":0.6656488549618321,"y0":0.317741935483871,"y1":0.6535087719298245},"cern@30":{"x0":-0.15,"x1":0.8486666666666666,"y0":0.01524390243902439,"y1":0.9054878048780488},"combo@30":{"x0":0.21280788177339902,"x1":0.8366995073891625,"y0":0.19473684210526315,"y1":1.25},"mumm@30":{"x0":0.40714285714285714,"x1":0.6331967213114754,"y0":0.4610091743119266,"y1":0.7839449541284405},"ark@30":{"x0":0.12030075187969924,"x1":0.8834586466165414,"y0":0.16083333333333333,"y1":0.9496212121212122},"sphinx@30":{"x0":0.15517857142857142,"x1":1.25,"y0":-0.25,"y1":1.25},"anubis@30":{"x0":-0.2,"x1":0.9188311688311688,"y0":0.13606271777003484,"y1":0.9238675958188153},"charonu@30":{"x0":0.29253393665158367,"x1":0.7390625000000001,"y0":0.3298429319371728,"y1":0.9039106145251397},"cer@30":{"x0":0.27977099236641223,"x1":1.25,"y0":0.17270833333333335,"y1":1.25},"grainb@30":{"x0":0.3875968992248062,"x1":0.5658914728682171,"y0":0.4538152610441767,"y1":0.8273092369477911},"waterb@30":{"x0":0.4108527131782946,"x1":0.540948275862069,"y0":0.4824817518248175,"y1":0.8112449799196787},"mega@30":{"x0":0.291866028708134,"x1":0.7151639344262295,"y0":0.24734299516908215,"y1":0.803921568627451},"stoneb@30":{"x0":0.4025974025974026,"x1":0.565,"y0":0.48322147651006714,"y1":0.8120805369127517},"grkw@30":{"x0":0.38372093023255816,"x1":0.5581395348837209,"y0":0.46586345381526106,"y1":0.8273092369477911},"crocu@30":{"x0":0.2872222222222222,"x1":0.891324200913242,"y0":0.32727272727272727,"y1":0.9318181818181819},"furyu@30":{"x0":0.25267175572519085,"x1":0.9864999999999999,"y0":0.3837837837837838,"y1":1.25},"croc@30":{"x0":0.2745689655172414,"x1":0.8765700483091787,"y0":0.3727272727272727,"y1":0.9454545454545453},"fury@30":{"x0":0.21179775280898877,"x1":1.25,"y0":0.3837837837837838,"y1":1.25}};
+window.CROPBAKE={"vdruid@30":{"x0":0.4030612244897959,"x1":0.5765306122448979,"y0":0.42999999999999994,"y1":0.8318181818181818},"adruid@30":{"x0":0.4229838709677419,"x1":0.6403225806451613,"y0":0.43157894736842106,"y1":0.8226600985221675},"archer@30":{"x0":0.38125,"x1":0.6734104046242774,"y0":0.3344632768361582,"y1":0.8169491525423729},"druid@30":{"x0":-0.25,"x1":1.25,"y0":0.16309523809523807,"y1":0.9488636363636364},"stag@30":{"x0":0.16714285714285715,"x1":0.8355421686746987,"y0":0.11042944785276074,"y1":0.901840490797546},"serpentf@30":{"x0":0.40340909090909094,"x1":0.6656488549618321,"y0":0.317741935483871,"y1":0.6535087719298245},"cern@30":{"x0":-0.15,"x1":0.8486666666666666,"y0":0.01524390243902439,"y1":0.9054878048780488},"combo@30":{"x0":0.21280788177339902,"x1":0.8366995073891625,"y0":0.19473684210526315,"y1":1.25},"combov2@30":{"x0":0.2,"x1":0.82,"y0":0.17,"y1":0.96},"combobv2@30":{"x0":0.2,"x1":0.82,"y0":0.17,"y1":0.96},"mumm@30":{"x0":0.40714285714285714,"x1":0.6331967213114754,"y0":0.4610091743119266,"y1":0.7839449541284405},"ark@30":{"x0":0.12030075187969924,"x1":0.8834586466165414,"y0":0.16083333333333333,"y1":0.9496212121212122},"sphinx@30":{"x0":0.15517857142857142,"x1":1.25,"y0":-0.25,"y1":1.25},"anubis@30":{"x0":-0.2,"x1":0.9188311688311688,"y0":0.13606271777003484,"y1":0.9238675958188153},"charonu@30":{"x0":0.29253393665158367,"x1":0.7390625000000001,"y0":0.3298429319371728,"y1":0.9039106145251397},"cer@30":{"x0":0.27977099236641223,"x1":1.25,"y0":0.17270833333333335,"y1":1.25},"grainb@30":{"x0":0.3875968992248062,"x1":0.5658914728682171,"y0":0.4538152610441767,"y1":0.8273092369477911},"waterb@30":{"x0":0.4108527131782946,"x1":0.540948275862069,"y0":0.4824817518248175,"y1":0.8112449799196787},"mega@30":{"x0":0.291866028708134,"x1":0.7151639344262295,"y0":0.24734299516908215,"y1":0.803921568627451},"stoneb@30":{"x0":0.4025974025974026,"x1":0.565,"y0":0.48322147651006714,"y1":0.8120805369127517},"grkw@30":{"x0":0.38372093023255816,"x1":0.5581395348837209,"y0":0.46586345381526106,"y1":0.8273092369477911},"crocu@30":{"x0":0.2872222222222222,"x1":0.891324200913242,"y0":0.32727272727272727,"y1":0.9318181818181819},"furyu@30":{"x0":0.25267175572519085,"x1":0.9864999999999999,"y0":0.3837837837837838,"y1":1.25},"croc@30":{"x0":0.2745689655172414,"x1":0.8765700483091787,"y0":0.3727272727272727,"y1":0.9454545454545453},"fury@30":{"x0":0.21179775280898877,"x1":1.25,"y0":0.3837837837837838,"y1":1.25}};
 var R3D=(()=>{if(typeof THREE==='undefined')return null;try{
 const T=THREE,TAU=Math.PI*2,rad=d=>d*Math.PI/180,lerp=(a,b,t)=>a+(b-a)*t,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),R=Math.random,reduce=false;
 const ATLAS=2048;const glc=document.createElement('canvas');glc.width=glc.height=ATLAS;
@@ -1993,7 +1993,9 @@ FACT.combo=function(){const SCN=scene;const LAB=GLAB('combo');const G0=(FACT.__n
       o['f'+sd]=[sgn*.05,y,z+.04];o['fy'+sd]=sgn*4;o['pt'+sd]=pt;
       const sw=-sgn*c;o['h'+sd]=[sgn*.15,.07+Math.max(0,sw)*.035,.04+sw*.075];o['b'+sd]=[sgn*.15,-.15,-1];o['e'+sd]=[sgn*.3,-.4,-1]}
     o.trL=0;o.trR=0;if(QN){o.hR=[-.15,.03+Math.max(0,c)*.03,.02+c*.05];o.sp=[.12,.3,1];o.bR=[.12,.3,1];o.lh=0}return o}
-  function tick(dt,I){S.x=I.x;S.z=I.z;let df=I.yaw-S.yaw;df=Math.atan2(Math.sin(df),Math.cos(df));if(S.clip!=='combo')S.yaw+=df*Math.min(1,dt*10);S.vel=I.speed;
+  function tick(dt,I){S.x=I.x;S.z=I.z;let df=I.yaw-S.yaw;df=Math.atan2(Math.sin(df),Math.cos(df));S.yaw+=df*Math.min(1,dt*(S.clip==='combo'?7:10));S.vel=I.speed;
+    // the combo keeps turning to face her opponent (its spins are on the pelvis, on top of this), and breaks off the moment she runs
+    if(S.clip==='combo'&&I.speed>.3){S.hold=false;playG('idle')}
     const c=CL[S.clip];const t0=S.t;S.t+=dt*S.rate;if(c.hits)c.hits.forEach(([ht,k],i)=>{if(t0<ht&&S.t>=ht){if(LAB.onStrike)LAB.onStrike(k,i);shake(.18*k)}})
     if(!c.loop&&S.t>=c.dur&&!S.hold)playG('idle');const c2=CL[S.clip],tt=c2.loop?S.t%c2.dur:Math.min(S.t,c2.dur);let p=c2.fn(tt);
     if(S.bl>0&&S.prev){S.bl-=dt;p=mixP(S.prev,p,1-Math.max(0,S.bl)/S.blT)}cur=p;
@@ -4226,7 +4228,7 @@ const TYPES={
   g8_2:{f:'serpent',flat:true,ps:50,vref:1.4,W:3.4,H:2.2,a:.42,cap:150,top:.62,sh:0,atk:[['bite',.52,1.2],['double',.69,1.2],['spit',.52,1.2]]},
   champ8:{f:'cern',ps:90,vref:1.7,W:2.5,H:2.6,a:.12,cap:240,top:1.9,sh:14,atk:[['sweep',.52,1.3],['lash',.5,1.3],['stomp',.58,1.3]]}};
 Object.assign(TYPES,{
-  g0_0:{f:'combo',ps:50,vref:3.36,W:3.4,H:2.7,a:.24,cap:200,top:1.1,sh:9,atk:[['combo',.47,1]]},
+  g0_0:{f:'combo',ck:'v2',ps:50,vref:3.36,W:3.6,H:3.7,a:.405,cap:200,top:1.1,sh:9,atk:[['combo',.47,1]]},
   g0_1:{f:'mummy',ps:34,vref:1.79,W:3,H:2,a:.3,cap:125,top:1.05,sh:11,atk:[['whip',.46,1.1],['spin',.5,1.1],['whipR',.46,1.1],['twin',.46,1.1]]},
   g0_2:{f:'ark',ps:50,vref:2.4,W:3.8,H:2.7,a:.3,cap:125,top:1.05,sh:24,atk:[['open',.6,1]]},
   g0_3:{f:'sphinx',ps:50,vref:4,W:4.2,H:3.6,a:.2,cap:125,top:1.45,sh:26,atk:[['maul',.26,1],['swipe',.208,1],['pounce',.343,1],['swipeR',.208,1],['buffet',.286,1]]},
@@ -4241,7 +4243,7 @@ TYPES.g1_2={f:'furyu',ps:44,vref:4.8,W:3.6,H:4,a:.12,cap:170,top:1.5,sh:7,atk:[[
 const PX=1,AZ=Math.PI/4,CAMD=new T.Vector3(),CAMD30=new T.Vector3(Math.sin(AZ)*Math.cos(Math.PI/6),Math.sin(Math.PI/6),Math.cos(AZ)*Math.cos(Math.PI/6));let elDeg=30;try{const v=+localStorage.getItem('r3d-el');if(v>=5&&v<=45)elDeg=v}catch(e){}
 function setEL(d){CROP.clear();elDeg=clamp(d,5,45);const e=elDeg*Math.PI/180;CAMD.set(Math.sin(AZ)*Math.cos(e),Math.sin(e),Math.cos(AZ)*Math.cos(e));for(const s of slots.values())s.fresh=true;try{localStorage.setItem('r3d-el',String(elDeg))}catch(e){}}
 const CROPFULL={x0:0,x1:1,y0:0,y1:1,full:1},CROP=new Map();let CROPSV=Object.assign({},window.CROPBAKE||{});try{const sv=JSON.parse(localStorage.getItem('tb-crop2')||'{}')||{};for(const k in sv){const a=CROPSV[k],b=sv[k];CROPSV[k]=a?{x0:Math.min(a.x0,b.x0),x1:Math.max(a.x1,b.x1),y0:Math.min(a.y0,b.y0),y1:Math.max(a.y1,b.y1)}:b}}catch(e){}window.__cropDump=()=>JSON.stringify(CROPSV);let cropSvT=0;
-function cropKey(ty){return ty.f+(ty.flat?'f':'')+'@'+elDeg}
+function cropKey(ty){return ty.f+(ty.flat?'f':'')+(ty.ck||'')+'@'+elDeg}
 function cropFix(E){const q=v=>Math.round(v*20)/20,m=.16;return{x0:Math.max(0,q(E.x0-m)),x1:Math.min(1,q(E.x1+m)),y0:Math.max(0,q(E.y0-m)),y1:Math.min(1,q(E.y1+m*.6))}}
 function cropOf(ty){let c=CROP.get(ty);if(!c){const E=CROPSV[cropKey(ty)];if(E){c={n:3,E,C:cropFix(E)};CROP.set(ty,c)}}return c&&c.C||CROPFULL}
 function cropNeeds(ty,f){if(window.__cropAll)return true;const c=CROP.get(ty);return !c||c.n<8||f%8===0}
@@ -4329,7 +4331,7 @@ function frame(){STATS.failed=failed;if(!G)return;if(!lost&&renderer.getContext(
     if(due){sl.fresh=false;const C=it.C;sl.C=C;sl.cw=it.w;sl.ch=it.h;cam.left=-ty.W/2+C.x0*ty.W;cam.right=-ty.W/2+C.x1*ty.W;cam.top=ty.H*(1-ty.a)-C.y0*ty.H;cam.bottom=ty.H*(1-ty.a)-C.y1*ty.H;cam.updateProjectionMatrix();
       const tg=new T.Vector3(S.x,0,S.z);cam.position.copy(tg).addScaledVector(ty.flat?CAMD30:CAMD,25);cam.lookAt(tg);st.sun.position.set(S.x-3,8,S.z+4);st.sun.target.position.copy(tg);st.sun.target.updateMatrixWorld();
       renderer.setScissor(sl.x,ATLAS-sl.y-sl.h,sl.w,sl.h);renderer.clear();renderer.setViewport(sl.x+1,ATLAS-sl.y-1-it.h,it.w,it.h);renderer.setScissor(sl.x+1,ATLAS-sl.y-1-it.h,it.w,it.h);
-      try{(useOutline?effect:renderer).render(st.scene,cam)}catch(e){console.warn('R3D render',e);failed=true;failT=performance.now();return}n++;if((!smp||window.__cropAll)&&cropNeeds(ty,frameNo)){smp=1;cropSample(ty,C,sl.x+1,ATLAS-sl.y-1-it.h,it.w,it.h)}if(!SNAP[ty.f]&&S.clip==='idle'&&(st.slotN||0)>20){try{const cv=document.createElement('canvas');cv.width=it.w;cv.height=it.h;cv.getContext('2d').drawImage(glc,sl.x+1,sl.y+1,it.w,it.h,0,0,it.w,it.h);cv.C=C;SNAP[ty.f]=cv}catch(e){}}}
+      try{(useOutline?effect:renderer).render(st.scene,cam)}catch(e){console.warn('R3D render',e);failed=true;failT=performance.now();return}n++;if((!smp||window.__cropAll)&&(cropNeeds(ty,frameNo)||(ty.ck&&S.clip!=='idle'&&(CROP.get(ty)||{n:0}).n<200))){smp=1;cropSample(ty,C,sl.x+1,ATLAS-sl.y-1-it.h,it.w,it.h)}if(!SNAP[ty.f]&&S.clip==='idle'&&(st.slotN||0)>20){try{const cv=document.createElement('canvas');cv.width=it.w;cv.height=it.h;cv.getContext('2d').drawImage(glc,sl.x+1,sl.y+1,it.w,it.h,0,0,it.w,it.h);cv.C=C;SNAP[ty.f]=cv}catch(e){}}}
     cells.set(it.u,{x:sl.x+1,y:sl.y+1,w:sl.cw||it.w,h:sl.ch||it.h,ty,Ps:ty.ps*Z,C:sl.C||CROPFULL})}
   const _t2=performance.now();STATS.tick=STATS.tick*.9+(_t1-_t0)*.1;STATS.render=STATS.render*.9+(_t2-_t1)*.1;STATS.n=list.length;STATS.calls=renderer.info.render.calls;STATS.tex=renderer.info.memory.textures;STATS.geo=renderer.info.memory.geometries;STATS.ct=CT.size;STATS.demo=DEMO.size}
 // codex cards, previews and icons: units that are not in the world get their own rig, posed from the card's animation
@@ -4459,7 +4461,7 @@ let NAMEG=null,FORIG=null;
 function applyNames(g){if(!FORIG){FORIG={B:{},U:{},T:{}};for(const k in B)FORIG.B[k]={name:B[k].name,desc:B[k].desc};for(const k in U)FORIG.U[k]={name:U[k].name,desc:U[k].desc};for(const k in TECH)FORIG.T[k]={name:TECH[k].name,desc:TECH[k].desc}}
   NAMEG=g;for(const k in FORIG.B){B[k].name=FXg(g,FORIG.B[k].name);B[k].desc=FXg(g,FORIG.B[k].desc)}for(const k in FORIG.U){if(!U[k])continue;U[k].name=FXg(g,FORIG.U[k].name);U[k].desc=FXg(g,FORIG.U[k].desc)}for(const k in FORIG.T){TECH[k].name=FXg(g,FORIG.T[k].name);TECH[k].desc=FXg(g,FORIG.T[k].desc)}
   const nm=FN(g,'hall');B.hall.name=nm;B.chapel.name=nm;
-  if(g===8){B.barracks.desc='The war-hall of the clan. Trains Rootbound Druids and Rams, one at a time. More Dún train more at once. Build it any time.';B.storehouse.desc='An earth-cut store under the turf. A drop-off and a new farm ring: Crofters can work within 4½ squares of it and bring their goods here, so dig them out where the resources are. Goods stored here are lost to raiders if it falls.'}
+  if(g===8){B.barracks.desc='The war-hall of the clan. Trains Rams, one at a time. More Dún train more at once. Build it any time.';B.storehouse.desc='An earth-cut store under the turf. A drop-off and a new farm ring: Crofters can work within 4½ squares of it and bring their goods here, so dig them out where the resources are. Goods stored here are lost to raiders if it falls.'}
   {const el=document.querySelector('#ch-sower b');if(el)el.textContent=U.sower.name;const e2=document.getElementById('ch-sower');if(e2)e2.setAttribute('aria-label',U.sower.name)}}
 const BNm=(side,k)=>{const g=G.S[side]?G.S[side].god:-1;if(k==='hall'||k==='chapel')return FN(g,'hall');return FORIG&&FORIG.B[k]?FXg(g,FORIG.B[k].name):B[k].name};
 const EGY=side=>!!(typeof G!=='undefined'&&G&&G.S&&G.S[side]&&G.S[side].god===0);
@@ -4512,7 +4514,7 @@ const TECH={
   bmortar:{br:'Defenses',bty:'mortar',name:'',tier:2,req:'btower',cost:{wood:10,stone:10},time:40,desc:''},
 };
 const RIX={rite1:0,rite2:1,rite3:2};const TBR=['Sowers','Gathering','Water','Army','Storage','Faith','Defenses','Navy'];
-const EREQ={tools:'quarry',quarry:null};const treq=(k,side)=>{const g=G&&G.S[side]?G.S[side].god:-1;return g===0&&k in EREQ?EREQ[k]:TECH[k].req};
+const EREQ={tools:'quarry',quarry:null};const treq=(k,side)=>{const g=G&&G.S[side]?G.S[side].god:-1;const r=g===0&&k in EREQ?EREQ[k]:TECH[k].req;return r&&RIX[r]!=null&&g>=0&&RETIRED.has(GUK[g][RIX[r]])?null:r};
 const EBR={quarry:'Gathering',sandtrap:'Gathering'},tbr=(k,side)=>{const g=G&&G.S[side]?G.S[side].god:-1;return g===0&&EBR[k]?EBR[k]:TECH[k].br};
 const brName=(br,side)=>{const g=G&&G.S[side]?G.S[side].god:-1;return g===0?({Sowers:'Bearers',Gathering:'Stone & Grain'}[br]||br):br};
 const ETN={shape:['Flood Plains','When a Grainbearer has no wheat left to tend, it turns open land inside your farm rings into crop land and plants it.'],quarry:['Quarrying','Stonebearers raise fresh rock from open ground and spent rubble near your Pyramid and Temples, so the stone never runs out.'],swift:['Bearer\u2019s Stride','All three bearers work twice as fast and walk 20% quicker.'],tools:['Copper Chisels','Stonebearers and Grainbearers cut stone and reap wheat 40% faster.'],veins:['Rich Veins','Every block of stone or sheaf of wheat a bearer takes has a 1 in 3 chance to give 2.'],bounty:['Gift of the Nile','The river\u2019s silt feeds the fields: wheat ripens 40% faster.']};
@@ -4520,7 +4522,7 @@ function hasT(side,k){if(!k)return true;if(k==='mining'&&EGY(side))return true;i
 function techName(k,side){const T=TECH[k],g=G.S[side]?G.S[side].god:-1;if(g===0&&ETN[k])return ETN[k][0];if(k==='shipatk'||k==='shipsiege')return(SHIPTECH[g]||['Ship Archers','Ship Siege'])[k==='shipatk'?0:1];if(RIX[k]!=null&&g>=0)return spName(GUK[g][RIX[k]]);if(T.bty&&g>=0&&BLESS[g]&&BLESS[g][T.bty])return BLESS[g][T.bty].name;return T.name}
 function techDesc(k,side){const g=G.S[side]?G.S[side].god:-1;if(g===0&&ETN[k])return ETN[k][1];if(k==='shipatk'||k==='shipsiege'){const tn=SHIPK[(FSHIP[g]||['currach'])[0]].n,nm=techName(k,side);return k==='shipatk'?`Your ${tn} takes ${nm} aboard. It shoots at enemy troops and ships within 3\u00bd squares, so it can fight its way to a landing.`:`Your ${tn} carries ${nm}: it bombards enemy buildings near the shore from 4\u00bd squares for heavy damage. Pair it with a landing to break a rival\u2019s coast.`}if(k==='bmortar'&&g===0)return`Unlocks the Canopic Urns, Egypt\u2019s short-range splash defense. ${BLESS[0].mortar.desc} Short range: hits everything in the blast.`;if(k==='btower'&&g===0)return`Unlocks the Obelisk, Egypt’s long-range defense. ${BLESS[0].tower.desc} Long range: picks off one target at a time.`;if(TECH[k].bty&&g>=0&&BLESS[g]){const x=BLESS[g][TECH[k].bty];return`Every ${B[TECH[k].bty].name} you own, now and later, becomes the ${x.name}: +35% damage, +150 health. ${x.desc}`}if(RIX[k]!=null&&g>=0){const t=U[GUK[g][RIX[k]]];return`Gives your ${t.name}s their special attack, ${spName(GUK[g][RIX[k]])}. Without it they fight with a normal attack only. ${t.desc}`}return TECH[k].desc}
 function techState(side,k){const S=G.S[side],T=TECH[k];if(k==='cannons')return{hide:true};if((k==='shipatk'||k==='shipsiege')&&!S.tech[k]&&!(S.research&&S.research.k===k)&&!harborOf(side))return{lock:`Needs a ${BNm(side,'harbor')}`};if(k==='mining'&&S.god===0)return{hide:true};if(TECH[k].egy&&S.god!==0)return{hide:true};if(S.tech[k])return{done:true};if(S.research&&S.research.k===k)return{busy:true,p:S.research.t/T.time};
-  if((T.bty&&(T.bty==='cannon'||S.god!==0))||(k==='sandtrap'&&S.god!==0)||(k==='agedruid'&&S.god!==8))return{hide:true};if(T.altar){if(!G.B.some(b=>b.side===side&&b.type==='altar'))return{lock:'Needs Altar'}}else if(templeCount(side)<T.tier-1)return{lock:T.tier===2?'Needs a Temple':`Needs ${T.tier-1} Temples`};{const rq=treq(k,side);if(rq&&!S.tech[rq])return{lock:`After ${techName(rq,side)}`}}if(S.research)return{wait:true};return{ok:true}}
+  if((T.bty&&(T.bty==='cannon'||S.god!==0))||(k==='sandtrap'&&S.god!==0)||(k==='agedruid'&&S.god!==8)||(RIX[k]!=null&&S.god>=0&&RETIRED.has(GUK[S.god][RIX[k]])))return{hide:true};if(T.altar){if(!G.B.some(b=>b.side===side&&b.type==='altar'))return{lock:'Needs Altar'}}else if(templeCount(side)<T.tier-1)return{lock:T.tier===2?'Needs a Temple':`Needs ${T.tier-1} Temples`};{const rq=treq(k,side);if(rq&&!S.tech[rq])return{lock:`After ${techName(rq,side)}`}}if(S.research)return{wait:true};return{ok:true}}
 function startResearch(side,k){const st=techState(side,k);if(!st.ok||!can(side,TECH[k].cost))return false;pay(side,TECH[k].cost);G.S[side].research={k,t:0};return true}
 function toAged(u){const f=u.hp/u.max;u.type='aged';u.max=U.aged.hp*(1+.2*(u.rank||0));u.hp=u.max*f;burst(u.x,u.y,['#8fdc6a','#c8ff9a','#fbf6ee'],12);ring(u.x,u.y,.7,'#8fdc6a');if(u.side===0)float(u.x,u.y,'Aged Druid','#3f8a2c')}
 function agedFight(u,dt){if(u.mode==='attack'&&u.tgt&&u.tgt.hp>0&&!u.autoF)return true;
@@ -4639,6 +4641,11 @@ const BATK={
   ford:{sup:'omen',dmg:0,range:0,col:'#7fbde8',bn:'Omen',bd:'No attack. Enemies within 2\u00bd squares are marked for death and take 25% more damage from everything.'}};
 for(const g in GUK)for(const key of GUK[g]){const t=U[key],ba=BATK[t.special];if(ba){Object.assign(t,ba);if(ba.splash==null)delete t.splash;if(ba.sup){delete t.hitsAir;t.desc=`${ba.bn}: ${ba.bd} ${t.desc}`}}}
 for(const g in GUK)for(const key of GUK[g]){const t=U[key];if(!t.awaken)continue;const b=Object.assign({},t,{full:key,basic:true});for(const f of['special','aura','summon','crit','exec','steal','slowHit'])delete b[f];U[key+'b']=b}
+// the Nubian's combo lands three strikes ([seconds after the first, weight]); its damage is split across them
+U.g0_0.chain=[[0,1],[.51,1],[1.03,1.4]];U.g0_0b.chain=[[0,1],[.41,1],[.91,1.4]];
+// retired units stay in GU so unit keys and research indexes don't shift, but are never trained, listed or fielded.
+// The Rootbound Druid is gone: the Celts' druid is the Verdant Druid villager, which researches into the Aged Druid.
+const RETIRED=new Set(['g8_0','g8_0b']);const GUKL=g=>(GUK[g]||[]).filter(k=>!RETIRED.has(k));
 U.archer1=Object.assign({},U.archer,{range:4,base:'archer'});U.archer2=Object.assign({},U.archer,{range:5,base:'archer'});
 const baseOf=k=>U[k]&&U[k].base||k,archerKey=side=>hasT(side,'eagle')?'archer2':hasT(side,'longbow')?'archer1':'archer';
 const CHIPS=['sower','grainb','waterb','missionary','ram'];
@@ -5172,6 +5179,7 @@ function updUnit(u,dt){SWIM=!!U[u.type].water;
     else if(ct.aura==='heal'){u.aT=.5;for(const a of G.units)if(a.side===u.side&&a!==u&&a.hp>0&&a.hp<a.max&&Math.hypot(a.x-u.x,a.y-u.y)<2.4)a.hp=Math.min(a.max,a.hp+4)}
     else{u.aT=ct.summon;if(G.units.some(e=>e.side!==u.side&&e.hp>0&&Math.hypot(e.x-u.x,e.y-u.y)<6)&&landAt(u.x+.6,u.y+.6)){const z=makeUnit('brute',u.side,u.x+.6,u.y+.6,modeAt(u.side,u.x,u.y));z.undead=true;z.hp=z.max=45;z.life=15;G.units.push(z);puff(z.x,z.y,6)}}}}}
   const t=U[u.type];
+  if(u.chain)chainTick(u,t);
   u.cd-=dt;u.moving=false;u.sw=Math.max(0,u.sw-dt*2.6);u.hurt=Math.max(0,u.hurt-dt);u.hurtCd=Math.max(0,(u.hurtCd||0)-dt);u.plan-=dt;
   if(u.type==='sower'&&G.S[u.side]&&G.S[u.side].tech&&G.S[u.side].tech.agedruid&&!G.arena){toAged(u);return}
   if(u.buildAt){if(Math.hypot(u.x-u.buildAt.x-2,u.y-u.buildAt.y-2)<3.9){const ba=u.buildAt;u.buildAt=null;finishBuildAt(u,ba)}else if(u.mode!=='move'){if(u.side===0)toast(`Your ${U[u.type].name} couldn\u2019t reach the village. Walk them closer and try again.`,true);u.buildAt=null}}
@@ -5191,7 +5199,7 @@ function updUnit(u,dt){SWIM=!!U[u.type].water;
   // fire at anything in reach first (attack-move); rams only hit buildings
   if(u.hid&&t.special==='burrow'){}
   else if(G.lab&&u.side===0){const v=u.tgt;if(!t.siege&&u.mode==='attack'&&v&&!v.s&&v.hp>0&&foeOf(u,v)&&Math.hypot(v.x-u.x,v.y-u.y)<t.range+.2){hitUnit(u,v);return}}
-  else if(!t.siege&&u.mode!=='board'){const[f,fd]=nearestFoeUnit(u,t.range+.2);if(f){hitUnit(u,f);return}}
+  else if(!t.siege&&u.mode!=='board'&&u.mode!=='move'){const[f,fd]=nearestFoeUnit(u,t.range+.2);if(f){face(u,f.x,f.y);hitUnit(u,f);return}}
   switch(u.mode){
     case 'brawl':{let best=null,bd=1e9,close=null;for(const v of G.units){if(!foeOf(u,v)||(U[v.type].air&&!t.hitsAir))continue;if(t.siege)break;const d=Math.hypot(v.x-u.x,v.y-u.y);if(t.min&&d<t.min){close=v;continue}if(d<bd){bd=d;best=v}}
       if(!best&&close){const dx=u.x-close.x,dy=u.y-close.y,L=Math.hypot(dx,dy)||1;stepToward(u,u.x+dx/L,u.y+dy/L,dt);break}
@@ -5393,8 +5401,14 @@ function hitUnit(u,v){if(U[u.type].sup)return;
   else if(t.splash)lob(u,v.x,v.y,t.dmg,t.splash,false);
   else if(t.spray3&&((u.shN=(u.shN||0)+1)%3===0)){const fs=G.units.filter(e=>foeOf(u,e)&&Math.hypot(e.x-u.x,e.y-u.y)<t.range+1).sort((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)-Math.hypot(b.x-u.x,b.y-u.y)).slice(0,3);while(fs.length<3)fs.push(v);for(const e of fs)G.shots.push({x:u.x,y:u.y,z:hT(u.x,u.y)+1.2,tgt:e,dmg:t.dmg*.8,spd:11,kind:'arrow',side:u.side,src:u,col:holyCol(t)});float(u.x,u.y,'Spray','#6f9e4c')}
   else if(t.range>1.2)G.shots.push({x:u.x,y:u.y,z:hT(u.x,u.y)+(t.air?2.4:1.2),tgt:v,dmg:t.dmg,spd:t.batk==='needle'?14:9,kind:t.batk==='needle'||t.batk==='sling'?'arrow':t.batk==='petal'?'orb':t.special==='plague'?'plague':t.special==='scarab'?'scarab':t.special==='ritual'?'crescent':t.item==='staff'||t.item==='doll'||t.item==='censer'?'orb':t.air||t.special==='baron'?'fire':'arrow',side:u.side,src:u,col:holyCol(t),on:t.special==='scarab'?'scarab':t.special==='ritual'?'crescent':t.special==='plague'?'plague':null});
+  else if(t.chain){const W=t.chain.reduce((a,c)=>a+c[1],0);chainStrike(u,v,t.dmg*t.chain[0][1]/W);u.chain={v,i:1,t0:G.t,W}}
   else deal(u,v,t.dmg);
 }
+// multi-strike attacks (the Nubian's combo): the damage is split across the strikes so every blow the animation lands is a real hit
+function chainStrike(u,v,d){deal(u,v,d);if(!reduceMotion)burst(v.x,v.y,['#f2c14e','#fbf6ee','#c4553f'],4)}
+function chainTick(u,t){const ch=u.chain,e=t.chain&&t.chain[ch.i],v=ch.v;
+  if(!e||u.mode==='move'||!(v.hp>0)||G.t-ch.t0>e[0]+.4){u.chain=null;return}
+  if(G.t-ch.t0>=e[0]){if(Math.hypot(v.x-u.x,v.y-u.y)<t.range+.7){face(u,v.x,v.y);chainStrike(u,v,t.dmg*e[1]/ch.W)}ch.i++}}
 const BMODE={brood:1,sweep:1,smash:1,gore:1,spin:1,talon:1,whip:1,lash:1,breath:1,wave:1,venom:1};
 function blightAt(x,y,side){const L=G.blight||(G.blight=[]);for(const b of L)if(b.side===side&&Math.hypot(b.x-x,b.y-y)<.6){b.t=b.max;b.r=Math.min(1.45,b.r+.15);b.x+=(x-b.x)*.3;b.y+=(y-b.y)*.3;b.pop=1;return}
   L.push({x,y,side,t:5,max:5,r:.9,seed:R()*99,pop:1,tick:0});if(L.length>30)L.shift()}
@@ -5706,7 +5720,7 @@ function aiTrain(ai){
     if(!S.hall.queue.length&&housing(k)<cap(k)){const eg=EGY(k),tot=eg?civN('sower')+civN('grainb')+civN('waterb'):civN('sower'),pick=eg?[['waterb',1],['grainb',1.6],['sower',1.6]].sort((a,b)=>civN(a[0])/a[1]-civN(b[0])/b[1])[0][0]:'sower';const want=tot<Math.min((ai.wantSow||4)+(eg?2:0),Math.max(3,cap(k)-2))?pick:!eg&&cap(k)>=15&&civN('missionary')<1&&G.t>200?'missionary':null;if(want&&can(k,U[want].cost)&&(want!=='missionary'||S.res.wheat>U[want].cost.wheat+3)){pay(k,U[want].cost);S.hall.queue.push(want)}}}
   if(housing(k)>=cap(k)||S.res.wheat<3)return;
   const opts=[];
-  for(const key of[...UORDER,...(S.god>=0?GUK[S.god]:[])]){const t=U[key];if(S.tier<t.lv||!hasT(k,t.tech))continue;if(t.civ)continue;const b=G.B.filter(x=>x.side===k&&built(x)&&(x.type===t.bld||x.type===t.alt||(t.bld==='hall'&&x.type==='chapel'))&&x.queue.length<2);if(!b.length||housing(k)+t.house>cap(k))continue;
+  for(const key of[...UORDER,...(S.god>=0?GUKL(S.god):[])]){const t=U[key];if(S.tier<t.lv||!hasT(k,t.tech))continue;if(t.civ)continue;const b=G.B.filter(x=>x.side===k&&built(x)&&(x.type===t.bld||x.type===t.alt||(t.bld==='hall'&&x.type==='chapel'))&&x.queue.length<2);if(!b.length||housing(k)+t.house>cap(k))continue;
     opts.push([key,{warrior:3,archer:3,ram:1.2}[key]||2.4,b.sort((p,q)=>p.queue.length-q.queue.length)[0]])}
   if(!opts.length)return;
   let r=R()*opts.reduce((s,o)=>s+o[1],0),pick=opts[0];for(const o of opts){r-=o[1];if(r<=0){pick=o;break}}
@@ -7073,6 +7087,7 @@ function tryPlace(x,y,quiet){
 function selUnits(){return[...SEL].filter(u=>u.hp>0)}
 function issueMove(gx,gy){
   const tc=cellAt(gx,gy),us=selUnits();if(!us.length)return;
+  for(const u of us){u.kneel=0;u.chain=null}   // a move order breaks off any attack or ritual straight away
   const wet=!land[tc];
   const swim=us.filter(u=>U[u.type].water&&!U[u.type].air),ground=us.filter(u=>!U[u.type].air&&!U[u.type].water),air=us.filter(u=>U[u.type].air);
   swim.forEach((u,i)=>{u.mode='move';u.tgt=null;u.gx=gx+Math.cos(i*2.4)*.45*Math.sqrt(i);u.gy=gy+Math.sin(i*2.4)*.45*Math.sqrt(i);SWIM=true;pathTo(u,cellAt(u.gx,u.gy));SWIM=false});
@@ -7255,7 +7270,7 @@ let PICKGOD=[8,0,1][Math.random()*3|0];let panelInfo=false,shapeMenu=false;
 const UIURL={};const iconVer=k=>{const g=playerGod(),m=window.MODELS||{},key=k==='sower'?(g===0?'stoneb':g===8?'vdruid':g===1?'grkw':''):k==='aged'?'adruid':(k==='grainb'||k==='waterb')?k:'';return key&&m[key]?'3'+g:'2'+g};
 function uIconURL(k){const v=k+iconVer(k);if(UIURL[v])return UIURL[v];unitIcon.ok=false;const url=unitIcon(k,44,48).toDataURL();if(v[k.length]!=='3'||unitIcon.ok)UIURL[v]=url;return url}
 const QMAX=5;
-function trainList(b){const S=G.S[b.side];const gk=w=>S.god>=0?GUK[S.god].filter(k=>U[k].bld===w):[];const ks=b.type==='hall'||b.type==='chapel'?[...CIV.filter(k=>U[k].bld==='hall'),...gk('hall')]:b.type==='barracks'?[...gk('barracks'),...UORDER.filter(k=>U[k].bld==='barracks'||U[k].alt==='barracks')]:b.type==='altar'?gk('altar'):b.type==='wabet'?gk('wabet'):b.type==='sphinxmon'?gk('sphinxmon'):[];return ks.filter(k=>U[k]&&hasT(b.side,U[k].tech)&&S.tier>=U[k].lv&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0))}
+function trainList(b){const S=G.S[b.side];const gk=w=>S.god>=0?GUKL(S.god).filter(k=>U[k].bld===w):[];const ks=b.type==='hall'||b.type==='chapel'?[...CIV.filter(k=>U[k].bld==='hall'),...gk('hall')]:b.type==='barracks'?[...gk('barracks'),...UORDER.filter(k=>U[k].bld==='barracks'||U[k].alt==='barracks')]:b.type==='altar'?gk('altar'):b.type==='wabet'?gk('wabet'):b.type==='sphinxmon'?gk('sphinxmon'):[];return ks.filter(k=>U[k]&&hasT(b.side,U[k].tech)&&S.tier>=U[k].lv&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0))}
 function qWhy(b,k){const t=U[k];if(b.queue.length>=QMAX)return`Queue is full (${QMAX}).`;if(t.champ!=null&&hasChamp(0))return`Your ${t.name} is already in the field.`;if(t.champ==null&&housing(0)+t.house>cap(0))return EGY(0)?'Your army is full. Dig another Well for more room.':'Your army is full. Build another Church, or turn a Church into a Temple, for more room.';if(!can(0,t.cost))return`Not enough materials for a ${t.name}.`;return''}
 function panelHTML(b){
   const D=DEFOF(b),S=G.S[b.side],mine=b.side===0;
@@ -7267,7 +7282,7 @@ function panelHTML(b){
   if(mine){
     if(b.type==='hall'){if(S.god>=0)h+=`<div class="pd"><b>${GODS[S.god].ab}.</b> ${GODS[S.god].d}</div>`;
       if(S.tier<MAXT){hup=upB('up',TEMPLECOST);h+=EGY(0)?`<div class="pd">Crowning the Pyramid with a gold capstone makes it the Great Pyramid: a bigger store, tougher walls, and it opens the Wabet and the Altar. (Troop space still comes only from Wells.)</div>`:`<div class="pd">Becoming a Temple adds 5 troop space (5 to 10), makes it tougher and counts toward deeper research: one Temple opens tier 2, two open tier 3.</div>`}
-      if(false){const more=Object.keys(LIMIT).filter(k=>k!=='wall'&&!COLL.includes(k)&&LIMIT[k][S.tier]>LIMIT[k][S.tier-1]).map(k=>B[k].name);const opens=RES.filter(r=>RESLV[r]===S.tier+1),units=[...UORDER,...(S.god>=0?GUK[S.god]:[])].filter(k=>U[k].lv===S.tier+1).map(k=>U[k].name+'s');h+=`<div class="pd">Level ${S.tier+1}: tier ${S.tier+1} research, ${opens.length?`<b>${opens.join(', ')} opens</b>, `:''}${units.length?units.join(' and ')+', ':''}${more.length?'more '+more.join(', ')+', ':''}and a tougher Church.</div>`}
+      if(false){const more=Object.keys(LIMIT).filter(k=>k!=='wall'&&!COLL.includes(k)&&LIMIT[k][S.tier]>LIMIT[k][S.tier-1]).map(k=>B[k].name);const opens=RES.filter(r=>RESLV[r]===S.tier+1),units=[...UORDER,...(S.god>=0?GUKL(S.god):[])].filter(k=>U[k].lv===S.tier+1).map(k=>U[k].name+'s');h+=`<div class="pd">Level ${S.tier+1}: tier ${S.tier+1} research, ${opens.length?`<b>${opens.join(', ')} opens</b>, `:''}${units.length?units.join(' and ')+', ':''}${more.length?'more '+more.join(', ')+', ':''}and a tougher Church.</div>`}
       if(S.tier>=MAXT)h+='<div class="pd">A Temple. Holds 10 troops.</div>'}
     if(b.type==='veil'){if(S.god<0)h+='';else{const ck='champ'+S.god;h+=`<div class="pd">You hold <b>${Math.floor(S.res.souls)} souls</b>. ${U[ck].name}: ${U[ck].desc}</div>`;acts.push(hasChamp(0)?`<button class="btn" disabled>Champion out</button>`:btn('champ','Summon',U[ck].cost))}}
     if(b.type==='barracks'){const dl=S.drill||0;h+=`<div class="pd"><b>Troop speed +${dl*12}%</b>${dl<3?` \u00b7 next: ${DRILL[dl].name}, +12% move speed for every troop you own`:' \u00b7 fully drilled'}</div>`;if(false){const D2=DRILL[dl];acts.push(btn('drill',S.tier<D2.tier?`Drill \u00b7 Lv ${D2.tier}`:`Drill +12%`,D2.cost,S.tier<D2.tier))}}
@@ -7390,7 +7405,7 @@ function openTrain(at){
   s.innerHTML=`<div class="sh"><h2>Train</h2><span class="tag">Army ${housing(0)} / ${cap(0)}</span><button class="x" id="sclose" aria-label="Close">×</button></div>`+
     (chapels.length?`<div class="acts" style="margin:4px 0 6px"><button class="btn" id="tHome" ${wild?'':'disabled'}>Home</button>${chapels.map((c,i)=>`<button class="btn" data-ch="${i}" ${trainAt===c?'disabled':''}>Wild Church${chapels.length>1?' '+(i+1):''}</button>`).join('')}</div>`:'');
   const grid=document.createElement('div');grid.className='cards rows';grid.style.marginTop='10px';
-  const list0=[...UORDER];if(S.god>=0&&!wild)list0.push(...GUK[S.god]);if(!wild)list0.push(...CIV.filter(k=>U[k].bld!=='upgrade'&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0)));
+  const list0=[...UORDER];if(S.god>=0&&!wild)list0.push(...GUKL(S.god));if(!wild)list0.push(...CIV.filter(k=>U[k].bld!=='upgrade'&&!(U[k].egonly&&S.god!==0)&&!(k==='missionary'&&S.god===0)));
   const ready=k=>{const t=U[k];if(!hasT(0,t.tech)||S.tier<t.lv)return false;return t.bld==='hall'||G.B.some(b=>b.side===0&&(b.type===t.bld||b.type===t.alt))};
   const rankOf=k=>{const t=U[k];if(t.bld==='hall'&&!t.tech)return 0;if(t.tech)return TECH[t.tech].tier*2-1+(t.bld==='hall'?0:.5);if(t.gu&&t.bld==='hall')return .5;if(t.gu)return 3+(t.awaken?TECH[t.awaken].tier:0)*.1;return 9};
   const list=list0.map((k,i)=>[k,i]).sort((a,b)=>(ready(b[0])-ready(a[0]))||(rankOf(a[0])-rankOf(b[0]))||(a[1]-b[1])).map(e=>e[0]);
@@ -7444,7 +7459,7 @@ function openAdmin(){if(ADM.rich==null){ADM.rich=true;toast('Admin: unlimited re
   const used=new Set();const group=(title,col,keys)=>{keys=keys.filter(k=>U[k]&&!used.has(k));if(!keys.length)return;const h=document.createElement('div');h.className='grp';h.innerHTML=(col?`<i style="background:${col}"></i>`:'')+title;body.appendChild(h);
     const grid=document.createElement('div');grid.className='ug';for(const k of keys){used.add(k);const t=U[k],b=document.createElement('button');b.className='ub';b.appendChild(unitIcon(k));b.insertAdjacentHTML('beforeend',`${t.name}<small>${t.champ!=null?'Champion':t.role||''}</small>`);b.onclick=()=>admSpawn(k);grid.appendChild(b)}body.appendChild(grid)};
   group('Basic',null,[...CIV,...UORDER]);
-  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...(GUK[gi]||[]),'champ'+gi]));
+  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...GUKL(gi),'champ'+gi]));
   {const seen=new Set([...used].map(k=>U[k].name));group('Other',null,Object.keys(U).filter(k=>{const t=U[k];if(!t.name||t.basic||t.dummy||seen.has(t.name))return false;seen.add(t.name);return true}))}
   s.hidden=false;$('sclose').onclick=closeSheet}
 function closeSheet(){$('sheet').hidden=true;sheetMode=null;hidePop();const t=$('techov');if(t)t.hidden=true}
@@ -7462,7 +7477,7 @@ function addInfo(card,html,label){const d=document.createElement('div');d.classN
 let OPENROW=null;
 let cxOpen=false,cxFilter='all',cxCards=[],cxObs=null;
 function codexGroups(){const gs=[{key:'base',title:'Common troops',sub:'Rams train at the Barracks, beside each faith\u2019s frontline troop. Rams are the only troop that breaks walls.',units:['ram']},{key:'base',title:'Villagers',units2:0,sub:'Trained at your Church. Sowers grow every bit of wheat you get and replant your forests; research Shape the Land and they will turn open land into fields and forests by themselves. Missionaries raise your troops\u2019 rank.',units:CIV}];
-  GACT((g,k)=>gs.push({key:'g'+k,god:k,title:g.n,sub:`${g.land} · ${g.ab}: ${g.d} All three faith troops train at the Altar (which needs a Temple) and fight with a normal attack until you research each one\u2019s special attack. Their champion is summoned at the Veil. Their champion, ${CHAMP[k].n}, is summoned at the Veil with souls.${BLESS[k]?' Research can also bless your defenses.':''}`,units:[...GUK[k],'champ'+k],defs:BLESS[k]?['tower','cannon','mortar']:[]}));
+  GACT((g,k)=>gs.push({key:'g'+k,god:k,title:g.n,sub:`${g.land} · ${g.ab}: ${g.d} ${['','','Both','All three'][GUKL(k).length]||'All'} faith troops train at the Altar (which needs a Temple) and fight with a normal attack until you research each one\u2019s special attack. Their champion is summoned at the Veil. Their champion, ${CHAMP[k].n}, is summoned at the Veil with souls.${BLESS[k]?' Research can also bless your defenses.':''}`,units:[...GUKL(k),'champ'+k],defs:BLESS[k]?['tower','cannon','mortar']:[]}));
   gs.push({key:'defs',title:'Defenses',sub:'Every player can build these. After pledging, your Temple can bless a Tower, Cannon or Mortar into its god\u2019s version.',units:[],defs:['tower','cannon','mortar'],god:null,base:true});
   GACT((g,k)=>{if(BLESS[k])gs.push({key:'defs',title:'Blessed by '+g.n,god:k,sub:`${g.ab} defenses. Bless for ${Object.entries(BLESSCOST).map(([a,v])=>v+' '+a).join(' and ')}: +35% damage, +150 health and a new power.`,units:[],defs:['tower','cannon','mortar']})});return gs}
 function openCodex(){cxOpen=true;$('codex').hidden=false;renderCodexFilters();renderCodex()}
@@ -7473,7 +7488,7 @@ function openMech(){const el=$('mxb'),g=G&&G.S&&G.S[0]&&G.S[0].god>=0?G.S[0].god
   const row=(icon,title,tags,text)=>{const r=document.createElement('div');r.className='mrow';r.appendChild(icon);r.insertAdjacentHTML('beforeend',`<div><b>${title}</b><div class="tg">${tags.join('')}</div><div class="mt">${text}</div></div>`);box.appendChild(r)};
   const cost=c=>c?Object.entries(c).filter(e=>e[1]).map(([k,v])=>v+' '+k).join(', '):'free';
   const UN=k=>U[k].name,T=k=>techName(k,0);
-  const TRAINS={hall:['sower','missionary'],chapel:['sower','missionary'],barracks:[...GUK[g].filter(k=>U[k].bld==='barracks'),'ram'],altar:GUK[g].filter(k=>U[k].bld==='altar'),veil:['champ'+g]};
+  const TRAINS={hall:['sower','missionary'],chapel:['sower','missionary'],barracks:[...GUKL(g).filter(k=>U[k].bld==='barracks'),'ram'],altar:GUKL(g).filter(k=>U[k].bld==='altar'),veil:['champ'+g]};
   const UP={sower:['mining','tools','veins','shape','quarry','swift','bounty'],ram:['drill','march'],storehouse:['granary','vaults'],tower:['btower'],cannon:['bcannon'],mortar:['bmortar'],};GUK[g].forEach((k,i)=>UP[k]=['rite'+Math.min(3,i+1)]);
   h3('The loop');p(`Sowers do all the work, but only inside your farm rings (7 squares around each Church, plus each Storehouse): they plant wheat and trees, then reap, chop and mine, carry up to 3 and walk it back to a Church or Storehouse, where it counts. Wood and stone build; wheat trains. Each Church holds 30 of each resource, Storehouses add more, and a fallen Storehouse hands its goods to the raider. Troop space starts at 5; every Church, and every Church turned Temple, adds 5.`);
   h3('Buildings');
@@ -7484,7 +7499,7 @@ function openMech(){const el=$('mxb'),g=G&&G.S&&G.S[0]&&G.S[0].god>=0?G.S[0].god
     else if(tr)text=`Trains <b>${tr.map(UN).join(', ')}</b>. `+D.desc;if(up)text+=` <b>Research:</b> ${up.map(T).join(' \u2192 ')}.`;
     row(bldIcon(k),nm||D.name,tags,text)}
   h3('Units');
-  const UL=[['sower','hall'],['missionary','hall'],['ram','barracks'],...GUK[g].map(k=>[k,U[k].bld]),['champ'+g,'veil']];
+  const UL=[['sower','hall'],['missionary','hall'],['ram','barracks'],...GUKL(g).map(k=>[k,U[k].bld]),['champ'+g,'veil']];
   for(const[k,src]of UL){const t=U[k],up=UP[k];const tags=[`<i>${src==='hall'?'Church':B[src].name}</i>`,t.water?'<i class="w">Water</i>':'',`<i>${cost(t.cost)}</i>`,`<i>${t.time}s</i>`,t.champ!=null?'<i class="k">One at a time</i>':''];
     row(unitIcon(k,52,48),t.name,tags,t.desc+(up?` <b>Research:</b> ${up.map(T).join(' \u2192 ')}.`:''))}
   h3('Research tree');p('Research only ever adds an extra ability; it never unlocks a unit or building. One study at a time, at your Church or Temple. Tier 1 is open from the start, tier 2 needs one Temple, tier 3 needs two. Faith awakenings also need an Altar.');
@@ -7694,7 +7709,7 @@ function cxSpecial(c,dt,w,h,T){
     for(let i=0;i<4;i++){if(p>i*.4+.1)drawBramble(w*(.68-i*.09),gy+4,sc*.8,1,i*3)}
     c.ah=c.ah||[.35,.5];if(p<.1)c.ah=[.35,.5];if(at(torc)){u.torc=1;cxRing(c,cx,gy,'#8fdc6a',true);cxTxt(c,w*.5,gy-78,'Torc of Life','#3f8a3a');for(const[i,a]of al.entries())cxTxt(c,a[0],a[1]-60,'+25%','#4f8a3f')}if(u.torc>0)u.torc-=dt;
     if(p>torc){c.ah=c.ah.map(v=>Math.min(1,v+dt*.8))}
-    for(const[i,a]of al.entries()){drawTroop(cxAl(c,'g8_0b',{moving:false,walk:0,sw:0,hurt:0,ph:i}),a[0],a[1],(sc*.8)*.9,1);hpbar(a[0],a[1]-44,16,c.ah[i],0,1)}
+    for(const[i,a]of al.entries()){drawTroop(cxAl(c,'aged',{moving:false,walk:0,sw:0,hurt:0,ph:i}),a[0],a[1],(sc*.8)*.9,1);hpbar(a[0],a[1]-44,16,c.ah[i],0,1)}
     const fw=Math.min(1,Math.max(0,(p-1.6)/1.6)),fxp=fx0-fw*w*.3;cxFoe(fxp+(fw>=1?Math.sin(time*20):0),gy+2,sc*.85,1);if(at(2.6)||at(3.4)||at(4.2))cxTxt(c,fxp,gy-50,'-4 thorns','#5b6a3a');if(at(2.8))cxTxt(c,fxp,gy-64,'Slowed','#3f86b8');
     drawTroop(u,cx,gy,sc*.7,p<1.6?-1:1)}
   else if(T.special==='crowdeath'){const cx0=w*.24,fs=[[w*.62,gy-8],[w*.84,gy-4],[w*.74,gy+7]],die=2.4;
@@ -8033,7 +8048,7 @@ function renderGodPick(){const el=$('gpick');if(!el)return;applyNames(PICKGOD);e
       if(g.eco)d.insertAdjacentHTML('beforeend',`<h4>How ${g.land==='Egypt'?'Egypt':g.n} builds</h4><p class="eco">${g.eco}</p>`);
       d.insertAdjacentHTML('beforeend',`<p class="eco"><b>Workers:</b> ${FN(k,'sowers')} \u00b7 <b>House of faith:</b> ${FN(k,'hall')} \u2192 ${FN(k,'temple')}${k===0?'':` \u00b7 <b>War-hall:</b> ${FN(k,'barracks')} \u00b7 <b>Store:</b> ${FN(k,'storehouse')}`} \u00b7 <b>Altar:</b> ${FN(k,'altar')} \u00b7 <b>Gate:</b> ${FN(k,'veil')}</p>`);
       d.insertAdjacentHTML('beforeend','<h4>Faith troops</h4>');
-      GUK[k].forEach((key,i)=>{const t=U[key];d.appendChild(row(key,`<b>${t.name}</b>${t.water?'<i class="w">Water</i>':''}<i>${{hall:FN(k,'hall'),wabet:'Wabet',sphinxmon:'Sphinx Monument',altar:FN(k,'altar'),barracks:FN(k,'barracks')}[U[key].bld]||FN(k,'altar')}</i>${U[key].bn?`<i>${U[key].sup?'Ability':'Attack'}: ${U[key].bn}</i>`:''}<i class="k">Special: ${spName(key)} \u00b7 by research</i><br>${t.desc}`))});
+      GUKL(k).forEach((key,i)=>{const t=U[key];d.appendChild(row(key,`<b>${t.name}</b>${t.water?'<i class="w">Water</i>':''}<i>${{hall:FN(k,'hall'),wabet:'Wabet',sphinxmon:'Sphinx Monument',altar:FN(k,'altar'),barracks:FN(k,'barracks')}[U[key].bld]||FN(k,'altar')}</i>${U[key].bn?`<i>${U[key].sup?'Ability':'Attack'}: ${U[key].bn}</i>`:''}<i class="k">Special: ${spName(key)} \u00b7 by research</i><br>${t.desc}`))});
       const ck='champ'+k,C=U[ck];d.insertAdjacentHTML('beforeend','<h4>Champion · summoned at the Veil with 25 souls</h4>');d.appendChild(row(ck,`<b>${C.name}</b><i class="k">Special: ${spName(ck)}</i><br>${C.desc}`));
       c.appendChild(d)}
     el.appendChild(c)});
@@ -8045,7 +8060,7 @@ const AR={teams:[{god:-1,u:{},d:{}},{god:-1,u:{},d:{}}]};
 try{const sv=JSON.parse(localStorage.getItem('tb_arena')||'null');if(sv&&sv.teams&&sv.teams.length===2)AR.teams=sv.teams}catch(e){}
 const arSave=()=>{try{localStorage.setItem('tb_arena',JSON.stringify({teams:AR.teams}))}catch(e){}};
 const AR_DEF=['tower','cannon','mortar','flak'];
-function arUnits(t){const T=AR.teams[t],l=[...UORDER];if(T.god>=0)l.push(...GUK[T.god],'champ'+T.god);return l}
+function arUnits(t){const T=AR.teams[t],l=[...UORDER];if(T.god>=0)l.push(...GUKL(T.god),'champ'+T.god);return l}
 function arDefs(t){const T=AR.teams[t],l=AR_DEF.map(k=>({key:k,name:B[k].name}));if(T.god>=0&&BLESS[T.god])for(const k of['tower','cannon','mortar'])l.push({key:k+'@'+T.god,name:BLESS[T.god][k].name});return l}
 function openArena(){if(G&&G.started&&!G.arena&&!G.over&&!openArena.warned){openArena.warned=true;toast('Opening the Proving Grounds ends your current game. Tap again to go.',true);setTimeout(()=>openArena.warned=false,3500);return}
   if(cxOpen)closeCodex();$('startover').hidden=true;$('endover').hidden=true;$('arhud').hidden=true;$('arset').hidden=false;renderArena()}
@@ -8075,7 +8090,7 @@ function newArena(){
   // defenses
   AR.teams.forEach((T,t)=>{let n=0;for(const key in T.d){const[ty,g]=key.split('@');for(let i=0;i<T.d[key];i++){const col=Math.floor(n/5),r=n%5;n++;const x=t===0?38-col*2:61+col*2,y=43+r*3;if(!inb(x,y)||cells[idx(x,y)])continue;const b=place(t,ty,x,y);if(g!=null){b.bless=+g;b.max+=150;b.hp=b.max}}}});
   // troops in blocks
-  AR.teams.forEach((T,t)=>{const list=[];for(const k in T.u)for(let i=0;i<T.u[k];i++)list.push(k);list.sort((a,b)=>(U[b].range>1.2?0:1)-(U[a].range>1.2?0:1));
+  AR.teams.forEach((T,t)=>{const list=[];for(const k in T.u)if(U[k]&&!RETIRED.has(k))for(let i=0;i<T.u[k];i++)list.push(k);list.sort((a,b)=>(U[b].range>1.2?0:1)-(U[a].range>1.2?0:1));
     list.forEach((k,i)=>{const row=i%10,col=Math.floor(i/10),x=t===0?42-col*.9:58+col*.9,y=45.5+row*.95+(col%2)*.4;const u=makeUnit(k,t,x,y,'brawl');u.fx=t===0?1:-1;u.fy=0;G.units.push(u)})});
   G.start=[0,1].map(k=>G.units.filter(u=>u.side===k).length);G.paused=false;
   selected=null;buildMode=null;SEL=new Set();SELSHIP=null;
@@ -8087,7 +8102,7 @@ function openLab(){if(G&&G.started&&!G.arena&&!G.over&&!openLab.warned){openLab.
 function labPicker(){sheetMode='lab';$('startover').hidden=true;const s=$('sheet');s.innerHTML=`<div class="sh"><h2>Movement Lab</h2><span class="tag">Pick a unit to try out</span><button class="x" id="sclose" aria-label="Close">\u00d7</button></div><div class="adm" id="labb"></div>`;
   const body=$('labb'),used=new Set();const group=(title,col,keys)=>{keys=keys.filter(k=>U[k]&&!used.has(k));if(!keys.length)return;const h=document.createElement('div');h.className='grp';h.innerHTML=(col?`<i style="background:${col}"></i>`:'')+title;body.appendChild(h);
     const grid=document.createElement('div');grid.className='ug';for(const k of keys){used.add(k);const t=U[k],b=document.createElement('button');b.className='ub';b.appendChild(unitIcon(k));b.insertAdjacentHTML('beforeend',`${t.name}<small>${t.champ!=null?'Champion':t.role||''}</small>`);b.onclick=()=>{closeSheet();newLab(k)};grid.appendChild(b)}body.appendChild(grid)};
-  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...(LABX[gi]||[]),...(GUK[gi]||[]),'champ'+gi]));group('Basic',null,[...UORDER,...CIV]);
+  GACT((gd,gi)=>group(`${gd.n} \u00b7 ${gd.land}`,gd.col,[...(LABX[gi]||[]),...GUKL(gi),'champ'+gi]));group('Basic',null,[...UORDER,...CIV]);
   {const seen=new Set([...used].map(k=>U[k].name));group('Other',null,Object.keys(U).filter(k=>{const t=U[k];if(!t.name||t.basic||t.dummy||seen.has(t.name))return false;seen.add(t.name);return true}))}
   s.hidden=false;$('sclose').onclick=()=>{closeSheet();if(!G||!G.lab)$('startover').hidden=!!(G&&G.started)}}
 function labType(){return LAB.up||!U[LAB.k+'b']?LAB.k:LAB.k+'b'}
