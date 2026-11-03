@@ -4372,7 +4372,7 @@ return{frame,draw,top,owns,drawOrbUnder,drawOrbOver,setEL,get el(){return elDeg}
 const cv=document.getElementById('world');let ctx=cv.getContext('2d');
 {const A=CanvasRenderingContext2D.prototype.arc;CanvasRenderingContext2D.prototype.arc=function(x,y,r,a,b,c){return A.call(this,x,y,r>0?r:0,a,b,c)}}
 const $=id=>document.getElementById(id);
-const WN=240,MAPAR=(WN/120)**2,HU=14,WH=.6,DROP=.55,WL=WH-DROP,TAU=Math.PI*2,VN=WN+1;
+const WN=170,MAPAR=(WN/120)**2,HU=14,WH=.6,DROP=.55,WL=WH-DROP,TAU=Math.PI*2,VN=WN+1;
 let NP=3;const UPK=1.2/60;let FOG=false;try{FOG=localStorage.getItem('tb-fog')==='1'}catch(e){}const HALLCLAIM=10,GR=3.5;
 let W=0,H=0,DPR=1,time=0;
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4747,7 +4747,7 @@ const vb=j=>fpl[j]>=0?fpl[j]:tfa[j]>=0?tfa[j]:bio[j];
 const terr=new Int8Array(WN*WN),homeT=new Int8Array(WN*WN),vis0=new Uint8Array(WN*WN),exp0=new Uint8Array(WN*WN);
 const hv=new Float32Array(VN*VN);let tcol=[],tcrgb=[],tdim=[];
 let cells=new Array(WN*WN).fill(null);
-let SEED=1,STARTS=[],MAIN=0,terrDirty=true;const OBS=new Uint8Array(WN*WN),HUTV=new Int16Array(WN*WN).fill(-1);let VILLS=[],MAPPICK='random';const OBST={type:'obst',obst:true,side:-9,x:-1,y:-1,s:1,hp:1e9,max:1e9,queue:[]};
+let LAYOUT='fingers',SEED=1,STARTS=[],MAIN=0,terrDirty=true;const OBS=new Uint8Array(WN*WN),HUTV=new Int16Array(WN*WN).fill(-1);let VILLS=[],MAPPICK='random';const OBST={type:'obst',obst:true,side:-9,x:-1,y:-1,s:1,hp:1e9,max:1e9,queue:[]};
 const THEMES={
  volcano:{n:'Volcano',layout:'ring',bios:[10,11,10],obs:'lava',zt:[.3,.48,.9],deep:'#2e1f26',shallow:'#7a3f32',wave:'255,170,110',bg:['#3b2a2c','#22171b'],vig:'40,10,10',mote:'ember',twist:'The volcano erupts every so often: molten bombs rain down near its crater and burn anyone caught there.'},
  mushroom:{n:'Mushroom Magic',layout:'isles',bios:[12,13,12],obs:'gshroom',zt:[.34,.74,.9],deep:'#3d3478',shallow:'#7fd8cc',wave:'210,255,250',bg:['#3b3268','#262050'],vig:'30,20,70',mote:'spore',twist:'Glowing spores drift everywhere: every troop slowly heals on its own.'},
@@ -4765,28 +4765,41 @@ const N4=[[1,0],[-1,0],[0,1],[0,-1]];let MAPMODE='continent';
 function genWorld(np){THEME=MAPPICK!=='random'&&THEMES[MAPPICK]?MAPPICK:THEME_K[R()*THEME_K.length|0];for(let t=0;t<60;t++){SEED=(R()*1e6)|0;if(tryWorld(np))return true}return false}
 function tryWorld(np){
   land.fill(0);isl.fill(255);beachA.fill(0);OBS.fill(0);HUTV.fill(-1);CFLOOR.fill(0);dep.fill(null);ldist.fill(0);OBS.fill(0);HUTV.fill(-1);VILLS=[];
-  const off=.1+R()*.08,lakeT=.62+R()*.08,A0=R()*TAU,rm=R(),MODE=THEMES[THEME].layout;MAPMODE=THEME;CFLOOR.fill(0);
-  for(let y=0;y<WN;y++)for(let x=0;x<WN;x++){const nx=(x+.5)/WN*2-1,ny=(y+.5)/WN*2-1,r=Math.max(Math.abs(nx),Math.abs(ny))*.6+Math.hypot(nx,ny)*.4;
-    let e=fbm(x/19,y/19,SEED,5)+off-Math.max(0,r-.62)*1.5;const lk=fbm(x/12+40,y/12,SEED+77,3);if(lk>lakeT)e-=(lk-lakeT)*1.8;
-    if(MODE==='ring'){const rr=Math.hypot(x+.5-WN/2,y+.5-WN/2)/WN;e=.5+(.41-rr)*1.4+(fbm(x/13,y/13,SEED+11,4)-.5)*.42;if(rr<.12)e=Math.max(e,.9)}
-    else if(MODE!=='continent'){const dx=x+.5-WN/2,dy=y+.5-WN/2,rr=Math.hypot(dx,dy),an=Math.atan2(dy,dx),wob=(vnoise(x/6,y/6,SEED+91)-.5)*2.4;
-      if(MODE==='isles'){let md=9;for(let k=0;k<np;k++){const d=Math.abs((((an-(A0+(k+.5)*TAU/np))%TAU)+TAU+Math.PI)%TAU-Math.PI);md=Math.min(md,d)}if(rr>WN*.11&&md*rr<2.4+wob)e-=.6;if(Math.abs(rr-WN*.15)<1.7+wob*.5)e-=.6}
-      else{const ch=Math.abs(fbm(x/17+300,y/17,SEED+300,3)-.5);if(ch<.026+.006*wob)e-=.5}}
+  // Map shape: one chunky landmass with broad fingers of sea cutting in from the coast. On "channel" maps a winding strait
+  // also runs right through the middle, crossed only at a few land bridges: the map's natural pinch points.
+  const MODE=THEME!=='volcano'&&R()<.5?'channel':'fingers',chA=R()*Math.PI;LAYOUT=MODE;let A0=R()*TAU;MAPMODE=THEME;CFLOOR.fill(0);
+  const C0=WN/2,segs=[],carved=new Uint8Array(WN*WN);   // water strokes: [x0,y0,x1,y1,w0,w1]
+  const stroke=(pts,w0,w1)=>{for(let k=0;k<pts.length-1;k++){const t0=k/(pts.length-1),t1=(k+1)/(pts.length-1);segs.push([pts[k][0],pts[k][1],pts[k+1][0],pts[k+1][1],w0+(w1-w0)*t0,w0+(w1-w0)*t1])}};
+  {const nF=3+(R()*3|0),fa=R()*TAU;for(let k=0;k<nF;k++){const a=fa+k*TAU/nF+rnd(-.35,.35),len=WN*(THEME==='volcano'?.2+R()*.1:.22+R()*.16),bend=rnd(-.5,.5),pts=[];
+      for(let j=0;j<=8;j++){const t=j/8,r=WN*.56-len*1.25*t,an=a+bend*t*t;pts.push([C0+Math.cos(an)*r,C0+Math.sin(an)*r])}stroke(pts,7+R()*4,2.6)}}
+  const FORDS=[];if(MODE==='channel'){const ux=Math.cos(chA),uy=Math.sin(chA),ph=R()*TAU,pts=[];for(let j=0;j<=24;j++){const t=j/24*2-1,o=Math.sin(t*Math.PI*1.4+ph)*WN*.06;pts.push([C0+ux*t*WN*.62-uy*o,C0+uy*t*WN*.62+ux*o])}
+    const cw=5+R()*2;stroke(pts,cw,cw);for(const ft of(np>2?[-.3,0,.3]:[-.2,.2])){const p=pts[Math.round((ft+1)/2*24+rnd(-.6,.6))];FORDS.push([p[0],p[1],cw*1.25+.8+R()])}
+    A0=chA+Math.PI/2}   // players start on opposite banks
+  for(let y=0;y<WN;y++)for(let x=0;x<WN;x++){const nx=(x+.5)/WN*2-1,ny=(y+.5)/WN*2-1,r=Math.max(Math.abs(nx),Math.abs(ny))*.55+Math.hypot(nx,ny)*.45;
+    let e=.8+(fbm(x/26,y/26,SEED,4)-.5)*.55-Math.max(0,r-.6)*2.8;
+    const px=x+.5,py=y+.5,rag=1+(vnoise(x/4,y/4,SEED+91)-.5)*.45;
+    for(const[x0,y0,x1,y1,w0,w1]of segs){const vx=x1-x0,vy=y1-y0,L2=vx*vx+vy*vy||1,t=clamp(((px-x0)*vx+(py-y0)*vy)/L2,0,1),d=Math.hypot(px-x0-vx*t,py-y0-vy*t),w=(w0+(w1-w0)*t)*rag;if(d<w){e=Math.min(e,.2);carved[idx(x,y)]=1;break}}
+    for(const[fx,fy,fr]of FORDS)if(Math.hypot(px-fx,py-fy)<fr)e=Math.max(e,.75);
+    if(THEME==='volcano'&&Math.hypot(px-C0,py-C0)<WN*.12)e=Math.max(e,.9);
     const i=idx(x,y);elev[i]=e;land[i]=e>.5&&x>1&&y>1&&x<WN-2&&y<WN-2?1:0}
+  // no stray ponds: inland water that never reaches the open sea becomes land (the channel between its land bridges is meant to be there)
+  {const sea=new Uint8Array(WN*WN),q=[];for(let i=0;i<WN*WN;i++){const x=i%WN,y=i/WN|0;if(!land[i]&&(x<2||y<2||x>=WN-2||y>=WN-2)){sea[i]=1;q.push(i)}}
+    for(let h=0;h<q.length;h++){const c=q[h],x=c%WN,y=c/WN|0;for(const[a,b]of N4){const X=x+a,Y=y+b;if(!inb(X,Y))continue;const m=idx(X,Y);if(!land[m]&&!sea[m]){sea[m]=1;q.push(m)}}}
+    for(let i=0;i<WN*WN;i++){const x=i%WN,y=i/WN|0;if(!land[i]&&!sea[i]&&!carved[i]&&x>1&&y>1&&x<WN-2&&y<WN-2){land[i]=1;elev[i]=Math.max(elev[i],.55)}}}
   // landmasses
   const sizes=[];
   for(let i=0;i<WN*WN;i++){if(!land[i]||isl[i]!==255)continue;const id=Math.min(254,sizes.length),q=[i];isl[i]=id;
     for(let h=0;h<q.length;h++){const c=q[h],x=c%WN,y=c/WN|0;for(const[a,b]of N4){const X=x+a,Y=y+b;if(!inb(X,Y))continue;const m=idx(X,Y);if(land[m]&&isl[m]===255){isl[m]=id;q.push(m)}}}
-    if(q.length<3){for(const c of q){land[c]=0;isl[c]=255}continue}sizes[id]=(sizes[id]||0)+q.length}
+    if(q.length<40){for(const c of q){land[c]=0;isl[c]=255}continue}sizes[id]=(sizes[id]||0)+q.length}
   MAIN=sizes.indexOf(Math.max(...sizes.map(v=>v||0)));
-  {let tot=0;for(const v of sizes)tot+=v||0;if(MODE==='continent'?sizes[MAIN]<WN*WN*.22:tot<WN*WN*.26)return false}
+  {let tot=0;for(const v of sizes)tot+=v||0;if(sizes[MAIN]<WN*WN*.22)return false}
   for(let y=0;y<WN;y++)for(let x=0;x<WN;x++){const i=idx(x,y);if(!land[i])continue;let b=0;for(let q=-1;q<=1&&!b;q++)for(let p=-1;p<=1;p++){const X=x+p,Y=y+q;if(!inb(X,Y)||!land[idx(X,Y)]){b=1;break}}beachA[i]=b}
   // distance inland
   {const q=[];for(let i=0;i<WN*WN;i++){if(land[i]&&beachA[i]){ldist[i]=1;q.push(i)}}for(let h=0;h<q.length;h++){const c=q[h],x=c%WN,y=c/WN|0;for(const[a,b]of N4){const X=x+a,Y=y+b;if(!inb(X,Y))continue;const m=idx(X,Y);if(land[m]&&!ldist[m]){ldist[m]=Math.min(250,ldist[c]+1);q.push(m)}}}}
   // starting spots spread around the main landmass
   STARTS=[];const a0=A0;
   for(let k=0;k<np;k++){const a=a0+k*TAU/np+(np>2?rnd(-.12,.12):0),tx=WN/2+Math.cos(a)*WN*.3,ty=WN/2+Math.sin(a)*WN*.3;
-    let best=-1,bd=1e9;for(let y=4;y<WN-5;y++)for(let x=4;x<WN-5;x++){const i=idx(x,y);if((MODE==='continent'?isl[i]!==MAIN:(sizes[isl[i]]||0)<150)||ldist[i]<5)continue;const d=Math.hypot(x-tx,y-ty);if(d<bd){bd=d;best=i}}
+    let best=-1,bd=1e9;for(let y=4;y<WN-5;y++)for(let x=4;x<WN-5;x++){const i=idx(x,y);if(isl[i]!==MAIN||ldist[i]<5)continue;const d=Math.hypot(x-tx,y-ty);if(d<bd){bd=d;best=i}}
     if(best<0||bd>WN*.22)return false;STARTS.push({x:best%WN-1,y:(best/WN|0)-1})}
   for(let a=0;a<np;a++)for(let b=a+1;b<np;b++)if(Math.hypot(STARTS[a].x-STARTS[b].x,STARTS[a].y-STARTS[b].y)<WN*(np>3?.34:.4))return false;
   // biomes: big warped regions
@@ -4816,10 +4829,13 @@ function tryWorld(np){
   for(const h of STARTS){const cx=h.x+1,cy=h.y+1,ring=[];for(let y=cy-7;y<=cy+7;y++)for(let x=cx-7;x<=cx+7;x++){if(!inb(x,y))continue;const i=idx(x,y),d=Math.hypot(x+.5-cx,y+.5-cy);if(d>=4.7&&d<=6.8&&land[i]&&!beachA[i]&&isl[i]===isl[idx(cx,cy)])ring.push(i)}
     for(const[kind,z,need]of[['wheat',1,7],['tree',2,7],['rock',3,6]]){let have=ring.filter(i=>dep[i]===kind).length;const pool=shuffle(ring.filter(i=>!dep[i]&&zone[i]===z));const open=shuffle(ring.filter(i=>!dep[i]&&!zone[i]));
       for(const i of[...pool,...open]){if(have>=need)break;dep[i]=kind;zone[i]=z;have++}}}
-  // villages: 10-12 natural sites, the only places a new church can be raised
+  // villages: two natural sites per player, the only places a new church can be raised
   {const want=Math.round((10+(R()*3|0))*MAPAR*.6),okV=i=>{const x=i%WN,y=i/WN|0;if(x<5||y<5||x>WN-9||y>WN-9||!land[i]||beachA[i]||ldist[i]<4||[[0,0],[3,0],[0,3],[3,3]].some(([a,b])=>{const j=idx(x+a,y+b);return!land[j]||beachA[j]||ldist[j]<2})||(sizes[isl[i]]||0)<70)return false;if(STARTS.some(h=>Math.hypot(h.x+1-x,h.y+1-y)<12))return false;if(THEME==='volcano'&&Math.hypot(x-WN/2,y-WN/2)<9)return false;return!VILLS.some(v=>Math.hypot(v.x-x,v.y-y)<10)};
-    for(let tr=0;tr<9000*MAPAR&&VILLS.length<want;tr++){const i=(R()*WN*WN)|0;if(okV(i))VILLS.push({x:i%WN,y:i/WN|0,seed:R()})}
-    if(VILLS.length<10)return false;
+    // exactly two village sites per player, each on its own side: a scarce, contested resource
+    for(let k=0;k<np;k++){const h=STARTS[k];let got=0;
+      for(let tr=0;tr<4000&&got<2;tr++){const a=R()*TAU,d=16+R()*14,x=Math.round(h.x+1+Math.cos(a)*d),y=Math.round(h.y+1+Math.sin(a)*d);if(!inb(x,y)||!okV(idx(x,y)))continue;
+        const dm=Math.hypot(h.x+1-x,h.y+1-y);if(STARTS.some((o,j)=>j!==k&&Math.hypot(o.x+1-x,o.y+1-y)<dm+8))continue;VILLS.push({x,y,seed:R()});got++}
+      if(got<2)return false}
     VILLS.forEach((v,vi)=>{for(let y=v.y-2;y<=v.y+5;y++)for(let x=v.x-2;x<=v.x+5;x++)if(inb(x,y)){const i=idx(x,y);dep[i]=null;zone[i]=0}
       const sp=[[0,0],[3,0],[0,3],[3,3],[1,0],[2,0],[0,1],[0,2],[3,1],[3,2],[1,3],[2,3]];shuffle(sp);for(const[a,b]of sp.slice(0,6+(R()*3|0))){const i=idx(v.x+a,v.y+b);if(land[i]&&!beachA[i]){dep[i]='hut';OBS[i]=1;HUTV[i]=vi}}})}
   // impassable ground: mountain ridges in the Highlands, chasms on the Riven Straits, basalt spires on the Fire Isles
@@ -5162,8 +5178,15 @@ function special(u,sp,dt){
     u.partyT=n?20:3;if(n){float(u.x,u.y,'Graveyard party!',GODS[7].col);ring(u.x,u.y,3,'#a6ff8f');u.dig=1.2}}
 }
 function idleHere(u){u.mode='idle';u.ax=u.x;u.ay=u.y;u.path=[];u.tgt=null}
+// nothing walks through buildings: a ground unit that ends up inside a footprint (built on top of it, dragged or dashed in)
+// is set down on the nearest open tile, so it can never cut through from the inside
+function ejectUnit(u){const x0=Math.floor(u.x),y0=Math.floor(u.y);let best=null,bd=1e9;
+  for(let r=1;r<=6&&!best;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;const X=x0+dx,Y=y0+dy;if(!inb(X,Y))continue;const i=idx(X,Y);if(!land[i]||cells[i]||OBS[i])continue;
+    const nx=clamp(u.x,X+.2,X+.8),ny=clamp(u.y,Y+.2,Y+.8),d=Math.hypot(nx-u.x,ny-u.y);if(d<bd){bd=d;best=[nx,ny]}}
+  if(best){u.x=best[0];u.y=best[1];u.path=[];u.plan=0}}
 function updUnit(u,dt){SWIM=!!U[u.type].water;
   if(u.leap){u.leap.t+=dt/.55;if(u.leap.t>=1){delete u.leap;if(u.mode==='raid')u.plan=0}return}
+  if(!U[u.type].air&&!u.carried&&!u.hid&&u.mode!=='board'&&blkAt(u.x,u.y))ejectUnit(u);
   if(u.kb){u.kb.t+=dt;if(u.kb.t>=u.kb.d){u.kb=null;if(landAt(u.x,u.y))puff(u.x,u.y,2)}}if(u.sinkA>0)u.sinkA-=dt;if(u.emerge>0)u.emerge-=dt;if(u.sink>0)u.sink-=dt;if(u.cast>0)u.cast-=dt;
   if(u.slow>0)u.slow-=dt;if(u.haste>0)u.haste-=dt;if(u.hex>0)u.hex-=dt;if(u.emp>0)u.emp-=dt;if(u.rise>0)u.rise-=dt;if(u.digT>0)u.digT-=dt;if(u.dig>0)u.dig-=dt;
   if(u.root>0)u.root-=dt;if(u.torc>0)u.torc-=dt;if(u.doom>0)u.doom-=dt;if(u.blind>0)u.blind-=dt;if(u.kneel>0)u.kneel-=dt;if(u.weighed>0)u.weighed-=dt;
@@ -6235,6 +6258,48 @@ function drawGreek(b,sx,sy,s,live,C1,C2){const gc=GODS[1].col;
     grkTemple(sx,sy,s,.26,.2,7,great?19:16,great?9:7,4,3,great,gc,b);if(great){const P=(u,v,z)=>[sx+(u-v)*32*s,sy+(u+v)*16*s-z*s],p=P(.38,.2,5);grkBrazier(p[0],p[1],s,gc,b)}
     return true}
   return false}
+// each faith's tower: Celtic round tower, Egyptian pylon, Greek (Hades) colonnade. Tops stay near 50 so the blessed crowns still sit on them.
+function drawFaithTower(g,b,sx,sy,s){const P=(u,v,z)=>[sx+(u-v)*32*s,sy+(u+v)*16*s-z*s];
+  if(g===8){const R=10*s,ry=5*s,H=46,R1=R*.84;blobShadow(sx,sy,s,15);
+    // dry-stone round tower, tapering, lit from the left
+    const gr=ctx.createLinearGradient(sx-R,0,sx+R,0);gr.addColorStop(0,CELC.stoneL);gr.addColorStop(.55,CELC.stone);gr.addColorStop(1,CELC.stoneD);
+    ctx.fillStyle=gr;ctx.beginPath();ctx.ellipse(sx,sy,R,ry,0,0,Math.PI);ctx.lineTo(sx-R1,sy-H*s);ctx.ellipse(sx,sy-H*s,R1,ry*.84,0,Math.PI,0,true);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='rgba(84,78,72,.32)';ctx.lineWidth=.8*s;for(let z=6;z<H;z+=6.5){const r=R+(R1-R)*z/H;ctx.beginPath();ctx.ellipse(sx,sy-z*s,r,ry*r/R,0,.15,Math.PI-.15);ctx.stroke()}
+    ctx.fillStyle=CELC.moss;for(const[ox,oz,w]of[[-7,3,5],[-3,1,4],[5,2,3.4],[-8,10,2.6]]){ctx.beginPath();ctx.ellipse(sx+ox*s,sy-oz*s+2*s,w*s,1.8*s,0,0,TAU);ctx.fill()}
+    // raised door with a gold torc over it, and slit windows
+    ctx.fillStyle='#2e2622';ctx.fillRect(sx-5.2*s,sy-19*s,4.4*s,6.5*s);ctx.beginPath();ctx.arc(sx-3*s,sy-19*s,2.2*s,Math.PI,0);ctx.fill();
+    ctx.fillStyle=CELC.stoneL;ctx.fillRect(sx-6*s,sy-12.8*s,6*s,1.4*s);
+    ctx.strokeStyle='#e8c35a';ctx.lineWidth=1.3*s;ctx.beginPath();ctx.arc(sx-3*s,sy-24.5*s,2.2*s,.4,Math.PI*2-.4+Math.PI,false);ctx.stroke();
+    ctx.fillStyle='#2e2622';ctx.fillRect(sx+3*s,sy-32*s,1.6*s,4.4*s);ctx.fillRect(sx-2.6*s,sy-40*s,1.6*s,4.4*s);
+    // conical stone cap and a green pennant
+    const ap=[sx,sy-(H+15)*s];ctx.fillStyle=CELC.stoneL;poly([sx-R1,sy-H*s,ap[0],ap[1],sx,sy-H*s+ry*.84]);ctx.fillStyle=CELC.stoneD;poly([sx+R1,sy-H*s,ap[0],ap[1],sx,sy-H*s+ry*.84]);
+    ctx.strokeStyle=CELC.woodD;ctx.lineWidth=1.2*s;line(ap[0],ap[1],ap[0],ap[1]-9*s);ctx.fillStyle=GODS[8].col;ctx.beginPath();ctx.moveTo(ap[0],ap[1]-9*s);ctx.lineTo(ap[0]+8*s,ap[1]-7*s);ctx.lineTo(ap[0],ap[1]-4.6*s);ctx.fill();
+    return true}
+  if(g===0){const a0=.2,a1=.14,H=42,aa=z=>a0+(a1-a0)*z/H;blobShadow(sx,sy,s,17);
+    // sandstone pylon: walls lean inward as they rise
+    const face=(pts,c)=>{ctx.fillStyle=c;poly(pts.flat())};
+    face([P(-a0,a0,0),P(a0,a0,0),P(a1,a1,H),P(-a1,a1,H)],'#e8cf9c');face([P(a0,a0,0),P(a0,-a0,0),P(a1,-a1,H),P(a1,a1,H)],'#c9a874');
+    const band=(z0,z1,cl,cr)=>{const b0=aa(z0),b1=aa(z1);face([P(-b0,b0,z0),P(b0,b0,z0),P(b1,b1,z1),P(-b1,b1,z1)],cl);face([P(b0,b0,z0),P(b0,-b0,z0),P(b1,-b1,z1),P(b1,b1,z1)],cr)};
+    band(5,7,'#2f5f9e','#244a7c');band(29,32,'#e8c35a','#c9a23f');band(32,34,'#2f5f9e','#244a7c');
+    ctx.fillStyle='rgba(110,72,34,.55)';for(let k=0;k<3;k++)for(let j=0;j<4;j++){const z=11+j*4.3,p=P(-.1+k*.08,aa(z),z);ctx.fillRect(p[0]-1*s,p[1]-1.6*s,2*s,1.6*s)}
+    face([P(aa(0),.05,0),P(aa(0),-.05,0),P(aa(10),-.05,10),P(aa(10),.05,10)],'#5a3e24');
+    // flared cornice in lapis and gold, then a gilded capstone
+    ibox(sx,sy,s,.165,.165,H,4,'#f3e2b6','#2f5f9e','#244a7c');ibox(sx,sy,s,.18,.18,H+4,2,'#f6e8c4','#e8c35a','#c9a23f');
+    const t0=P(0,0,H+18),c1=P(-.12,.12,H+6),c2=P(.12,.12,H+6),c3=P(.12,-.12,H+6);ctx.fillStyle='#f2c14e';poly([...c1,...c2,...t0]);ctx.fillStyle='#c9962e';poly([...c2,...c3,...t0]);
+    glow(t0[0],t0[1]+4*s,10*s,'#ffd27a',.4);return true}
+  if(g===1){blobShadow(sx,sy,s,17);const MT=['#f4f0e8','#e2dbcf','#c7bfb2'];
+    // marble plinth, a dark underworld core, and a ring of columns round it
+    ibox(sx,sy,s,.22,.22,0,5,'#ece7de','#d9d2c6','#bdb5a8');ibox(sx,sy,s,.19,.19,5,3,'#ece7de','#d9d2c6','#bdb5a8');
+    ibox(sx,sy,s,.11,.11,8,30,'#3a3046','#2e2638','#241e2c');glow(sx,sy-22*s,9*s,'#ff5a2a',.18);
+    for(const[u,v]of[[-.15,.15],[-.05,.15],[.05,.15],[.15,.15],[.15,.05],[.15,-.05],[.15,-.15]]){const p=P(u,v,0);ibox(p[0],p[1],s,.026,.026,8,30,...MT)}
+    // terracotta stripe, a black meander frieze, a low marble roof
+    ibox(sx,sy,s,.205,.205,38,1.5,null,'#c4553f','#a3432f');const Q=ibox(sx,sy,s,.2,.2,39.5,5,'#f4f0e8','#d9d2c6','#bdb5a8');
+    ctx.fillStyle='#2b2440';for(let k=0;k<8;k++){const t=-.17+k*.048,p=Q(t,.2,40.6),q=Q(.2,-t,40.6);ctx.fillRect(p[0]-.8*s,p[1]-2.6*s,1.6*s,2.6*s);ctx.fillRect(q[0]-.8*s,q[1]-2.6*s,1.6*s,2.6*s)}
+    const r1=P(-.2,.2,44.5),r2=P(.2,.2,44.5),r3=P(.2,-.2,44.5),ap=P(0,0,50);ctx.fillStyle='#e2dbcf';poly([...r1,...r2,...ap]);ctx.fillStyle='#bdb5a8';poly([...r2,...r3,...ap]);
+    // bronze bowl of embers (the blessed Brazier of Tartarus sets it ablaze)
+    ctx.fillStyle='#8a5a2e';ctx.beginPath();ctx.ellipse(ap[0],ap[1]-2*s,5*s,2.2*s,0,0,Math.PI);ctx.fill();ctx.fillStyle='#ff7a3a';ctx.beginPath();ctx.ellipse(ap[0],ap[1]-2.4*s,4*s,1.4*s,0,0,TAU);ctx.fill();
+    glow(ap[0],ap[1]-4*s,9*s,'#ff5a2a',reduceMotion?.35:.3+.1*Math.sin(time*5+(b.seed||0)*9));return true}
+  return false}
 function drawBld(b,sx,sy,s,live){
   const sd=SIDE[b.side];let C1=sd.c1,C2=sd.c2;if(b.temple&&live&&G.S[b.side]&&G.S[b.side].god>=0){C1=GODS[G.S[b.side].god].col;C2=tint(C1,-.35)}ctx.lineCap='round';ctx.lineJoin='round';
   {const cg=live?(G.S[b.side]?G.S[b.side].god:-1):playerGod();if(cg===8&&b.type!=='wall'&&drawCelt(b,sx,sy,s,live,C1,C2)){if(b.bless!=null)drawBless(b,sx,sy,s);return}if(cg===1&&drawGreek(b,sx,sy,s,live,C1,C2))return}
@@ -6335,7 +6400,7 @@ function drawBld(b,sx,sy,s,live){
       ctx.fillStyle='#8a6650';ctx.beginPath();ctx.ellipse(t[0],t[1],14*s,6*s,0,0,TAU);ctx.fill();ctx.fillStyle='#b48d66';ctx.beginPath();ctx.ellipse(t[0],t[1]-2*s,11*s,4*s,0,0,TAU);ctx.fill();
       ctx.fillStyle=C1;for(const k of[-1,1]){ctx.beginPath();ctx.moveTo(t[0]+k*4*s,t[1]-3*s);ctx.lineTo(t[0]+k*15*s,t[1]-12*s);ctx.lineTo(t[0]+k*9*s,t[1]-2*s);ctx.fill()}
       break}
-    case 'tower':{blobShadow(sx,sy,s,16);const P=ibox(sx,sy,s,.2,.2,0,44,STONEC[0],STONEC[1],STONEC[2]);
+    case 'tower':{if(drawFaithTower(live?(G.S[b.side]?G.S[b.side].god:-1):playerGod(),b,sx,sy,s))break;blobShadow(sx,sy,s,16);const P=ibox(sx,sy,s,.2,.2,0,44,STONEC[0],STONEC[1],STONEC[2]);
       ctx.fillStyle='#4f4660';for(const z of[16,30]){const a=P(-.02,.2,z);ctx.fillRect(a[0],a[1]-6*s,2.4*s,6*s);const c=P(.2,-.03,z);ctx.fillRect(c[0],c[1]-6*s,2.4*s,6*s)}
       for(const[u,v]of[[-.2,.2],[0,.2],[.2,.2],[.2,0],[.2,-.2]])ibox(sx+(u-v)*32*s,sy+(u+v)*16*s,s,.05,.05,44,6,STONEC[0],STONEC[1],STONEC[2]);
       const top=P(0,0,50),fl2=reduceMotion?0:Math.sin(time*2+b.seed*7)*2*s;glow(top[0],top[1]-10*s+fl2,16*s,C1,.55);
@@ -8210,6 +8275,6 @@ function frame(now){
 }
 resize();newGame();
 requestAnimationFrame(frame);
-window.__tb={get G(){return G},zoom:z=>{cam.z=z},tfa,fpl,tft,ownerAt:(x,y)=>ownerAt(x,y),setPick:g=>{PICKGOD=g;if(G&&G.S&&!G.started)G.S[0].god=g},place:(...a)=>place(...a),centerOnPt:(x,y)=>centerOnPt(x,y),zone,cap,damageBuilding,ringTiles,sowTiles,okSeed,AR,newArena,openArena,pj:(x,y)=>{setView();return pj(x,y,hT(x,y))},select:b=>select(b),newGame,ownerAt,gatherOf,collectRate,exp0,vis0,get STARTS(){return STARTS},bio,dep,homeT,recomputeTerr,update,place,issueMove,issueBoard,shipOrder,SEL:()=>SEL,tryPlace:(t,x,y)=>{buildMode=t;tryPlace(x,y)},villages:()=>G.villages,obsAt:(x,y)=>OBS[idx(x,y)],setMap:m=>{MAPPICK=m;newGame(NP)},mapMode:()=>MAPMODE,massAt:(x,y)=>isl[idx(x,y)],dockSpot:(x,y)=>dockSpot(x,y),isBeach:(x,y)=>!!beachA[idx(x,y)],damageUnit:(u,d)=>damageUnit(u,d),setShip:s=>{SELSHIP=s},centerOn,cam,canPlace,land,isl,beachA,cellAt,dockSpot,WN,makeUnit,centerOnPt};
+window.__tb={get G(){return G},zoom:z=>{cam.z=z},tfa,fpl,tft,ownerAt:(x,y)=>ownerAt(x,y),setPick:g=>{PICKGOD=g;if(G&&G.S&&!G.started)G.S[0].god=g},place:(...a)=>place(...a),centerOnPt:(x,y)=>centerOnPt(x,y),zone,cap,damageBuilding,ringTiles,sowTiles,okSeed,AR,newArena,openArena,pj:(x,y)=>{setView();return pj(x,y,hT(x,y))},select:b=>select(b),newGame,ownerAt,gatherOf,collectRate,exp0,vis0,get STARTS(){return STARTS},bio,dep,homeT,recomputeTerr,update,place,issueMove,issueBoard,shipOrder,SEL:()=>SEL,tryPlace:(t,x,y)=>{buildMode=t;tryPlace(x,y)},villages:()=>G.villages,obsAt:(x,y)=>OBS[idx(x,y)],setMap:m=>{MAPPICK=m;newGame(NP)},mapMode:()=>MAPMODE,layout:()=>LAYOUT,massAt:(x,y)=>isl[idx(x,y)],dockSpot:(x,y)=>dockSpot(x,y),isBeach:(x,y)=>!!beachA[idx(x,y)],damageUnit:(u,d)=>damageUnit(u,d),setShip:s=>{SELSHIP=s},centerOn,cam,canPlace,land,isl,beachA,cellAt,dockSpot,WN,makeUnit,centerOnPt};
 })();
 </script>

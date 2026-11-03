@@ -21,6 +21,9 @@ Open `index.html` in a browser (file:// works: models load through `<script>` ta
   - **Memory**: `dispose(st)` frees geometry, materials, per-unit textures and skeleton bone textures. Leaks here crash the WebGL context on iOS.
   - Context loss self-heals (`heal()`); `SNAP` snapshots are the fallback image.
 - **Models**: loader `window.MODELS={}` near the top; `KS=[...]` lists the model keys loaded from `m/<key>.js`.
+- **Map**: `WN`=170 tiles. `tryWorld` builds one chunky landmass cut by broad fingers of sea (`segs` strokes); about half of non-Volcano maps (`LAYOUT==='channel'`) also get a coast-to-coast strait with land bridges (`FORDS`) near the middle as pinch points. Exactly two village sites per player, on their own side (`VILLS`).
+- **Buildings block movement**: pathing (`bfs`, `losLand`) avoids building cells, `stepToward` refuses to step in, and `ejectUnit` sets down any ground unit that ends up inside a footprint.
+- **Towers**: `drawFaithTower` draws the Celtic round tower, Egyptian pylon and Greek colonnade; blessed crowns (`drawBless`) sit on top at ~52.
 - **Proving grounds** (`AR`, `newArena`), **Movement Lab** (`openLab`, `#labgo` = "Use special now", `#labup` = upgrade toggle).
 - **Debug**: ••• menu → "Graphics info" overlay; `window.__r3d` stats; `window.__tb` test hooks (G, update, makeUnit, setMap, setPick, tryPlace, SEL, zoom, centerOnPt, …).
 
